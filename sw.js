@@ -1,10 +1,12 @@
-/* YF LiveList 1.0 - las actualizaciones de contenido solo se descargan cuando el usuario pulsa "Actualizar" */
-var C="yf-shell",F=["./","index.html","manifest.webmanifest","icon-192.png","icon-512.png"];
-function precache(c){return Promise.all(F.map(function(f){return fetch(new Request(f,{cache:"reload"})).then(function(r){if(!r.ok)throw 0;return c.put(f,r)})}))}
+/* YF LiveList 1.1 - guarda la app para usarla sin conexión; con conexión carga siempre la versión más reciente */
+var C="yf-shell-2",F=["./","index.html","manifest.webmanifest","icon-192.png","icon-512.png"];
 self.addEventListener("install",function(e){e.waitUntil(caches.open(C).then(function(c){
-  return c.match("index.html").then(function(r){return r?r.clone().text():""}).then(function(t){return t.indexOf("chk=")>-1?null:precache(c)})}).then(function(){return self.skipWaiting()}))});
-self.addEventListener("activate",function(e){e.waitUntil(caches.open(C).then(function(c){return c.keys().then(function(ks){return Promise.all(ks.filter(function(k){return k.url.indexOf("chk=")>-1}).map(function(k){return c.delete(k)}))})})
-  .then(function(){return caches.keys()}).then(function(k){return Promise.all(k.filter(function(x){return x!==C}).map(function(x){return caches.delete(x)}))}).then(function(){return self.clients.claim()}))});
-self.addEventListener("fetch",function(e){if(e.request.method!=="GET")return;var u=new URL(e.request.url);
-  if(u.searchParams.has("chk")){e.respondWith(fetch(e.request,{cache:"no-store"}));return}
-  e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(x){if(x&&x.ok&&u.origin===self.location.origin){var cp=x.clone();caches.open(C).then(function(c){c.put(e.request,cp)})}return x}).catch(function(){return caches.match("./")})}))});
+  return Promise.all(F.map(function(f){return fetch(new Request(f,{cache:"reload"})).then(function(r){if(r.ok)return c.put(f,r)}).catch(function(){})}))}).then(function(){return self.skipWaiting()}))});
+self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(k){return Promise.all(k.filter(function(x){return x!==C}).map(function(x){return caches.delete(x)}))}).then(function(){return self.clients.claim()}))});
+self.addEventListener("fetch",function(e){var r=e.request;if(r.method!=="GET")return;var u=new URL(r.url);if(u.origin!==self.location.origin)return;
+  e.respondWith(new Promise(function(res){var done=false;
+    function fromCache(){return caches.match(r,{ignoreSearch:true}).then(function(c){return c||caches.match("./")})}
+    var t=setTimeout(function(){fromCache().then(function(c){if(c&&!done){done=true;res(c)}})},3000);
+    fetch(u.href,{cache:"no-cache"}).then(function(x){clearTimeout(t);var cp=x&&x.ok?x.clone():null;if(!done){done=true;res(x)}
+      if(cp)caches.open(C).then(function(c){c.put(r,cp)})})
+    .catch(function(){clearTimeout(t);if(!done)fromCache().then(function(c){done=true;res(c||Response.error())})})}))});
