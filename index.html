@@ -1123,6 +1123,7 @@ if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(
 /* pantalla de inicio */
 (function(){var sp=$("splash"),bar=$("spbar");window.__ready=1;
   bar.style.width="30%";setTimeout(()=>{bar.style.width="85%"},150);
+
   setTimeout(()=>{bar.style.width="100%";setTimeout(()=>{sp.classList.add("out");setTimeout(()=>{sp.style.display="none"},450)},250)},900)})();
 </script>
 </body>
