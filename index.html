@@ -181,11 +181,53 @@ li.lv .vb{flex-basis:46px}
 .lvdv.on::after,.pdv.on::after{content:"✓";position:absolute;right:4px;top:5px;width:12px;height:12px;line-height:12px;border-radius:50%;background:var(--ok);color:var(--bg);font-size:8px;font-weight:800;text-align:center}
 .lvd b{color:var(--ink);font-weight:600}
 li.done .lvd b{color:var(--muted)}
-.phd{display:flex;align-items:center;gap:8px}.phd .t{flex:1}
+.phd{display:flex;align-items:center;gap:8px}.phd .ib+.ib{margin-left:-2px}.phd .t{flex:1}
 .mb{padding:0 12px;display:grid;place-items:center}.mb.xq{color:var(--bad)}.lk0{color:var(--muted);opacity:.7}
 li.dragging{position:relative;z-index:6;box-shadow:0 10px 26px rgba(0,0,0,.45);outline:3px solid var(--accent);outline-offset:-3px}
 #dropln{position:fixed;height:4px;border-radius:2px;background:var(--accent);z-index:40;display:none;pointer-events:none}
 html.dg,html.dg body{overscroll-behavior:none}
+/* v1.2 */
+:root{--nm:20px;--pn:20px;--bt:20px;--tx:15px;--inf:14px}
+.btn,.chip{font-size:var(--tx,15px)}.seg button{font-size:var(--tx,15px)}
+li .t{font-size:var(--nm,20px)}
+li .t.pt,.pc .t,.pname{font-size:var(--pn,20px)}
+li .r1{display:flex;align-items:center;gap:8px;padding:4px 8px 4px 4px}
+li .r1 .main{flex:1;min-width:0;padding:8px 6px;min-height:0}
+li .r2,li .r3{display:flex;align-items:center;gap:6px;padding:0 8px 8px}
+li .r3 .sp{flex:1}
+li .r2 .wide{flex:1;min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ib{display:inline-grid;place-items:center;flex:none;min-width:calc(var(--bt,20px) + 18px);height:calc(var(--bt,20px) + 14px);border:1px solid var(--line);border-radius:10px;color:var(--muted);position:relative;background:transparent}
+.ib .ico{width:var(--bt,20px);height:var(--bt,20px)}
+.ib .sw{width:calc(var(--bt,20px)*1.3);height:calc(var(--bt,20px)*.7)}
+.ib .sw::after{top:50%;transform:translateY(-50%);width:calc(var(--bt,20px)*.38);height:calc(var(--bt,20px)*.38);left:2px}
+.ib.vb.va .sw::after{left:auto;right:2px}
+.ib.vb{border-left:1px solid var(--line);flex:none}
+.ib.vb.vo{border-color:var(--cy)}.ib.vb.va{border-color:var(--mg)}
+.ib.nb.on,.ib.fl.on,li.hasnote .ib.nb.on{color:var(--bad);font-weight:400}
+.ib.nb.on .ico,.ib.fl.on .ico{fill:currentColor}
+.ib.lvdv{color:var(--muted)}.ib.lvdv.on{color:var(--ok)}
+.ib.xq{color:var(--bad)}
+.inf{border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:var(--inf,14px);color:var(--muted);background:transparent;white-space:nowrap}
+.inf.set{color:var(--ink);font-weight:600}
+.lvd{font-size:var(--inf,14px)}
+li.inpop{margin-left:16px;border-left:4px solid var(--accent)}
+li.ph .t{font-weight:800}
+.prow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pname{flex:1;min-width:0;font-weight:700;border:1px solid transparent;background:transparent;padding:4px 6px;border-radius:8px}
+.pname:focus{border-color:var(--accent);background:var(--bg)}
+.pc.done .phd::before{content:"✓";color:var(--ok);font-weight:800}
+.pc .pi{display:block;border-top:1px solid var(--line);padding-top:6px}
+.pc .pn1{font-weight:700;font-size:var(--inf,14px)}.pc .pd{font-weight:400;color:var(--muted);font-size:var(--inf,14px)}
+.pc .pn1 .ck{color:var(--ok);margin-left:6px}
+.inf1{padding:6px 0;border-bottom:1px solid var(--line);white-space:pre-wrap;overflow-wrap:anywhere}
+#szBar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;gap:10px;background:var(--surface);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 24px rgba(0,0,0,.3);max-width:640px;margin:0 auto}
+#szBar.on{display:grid}
+#szT{font-weight:700;text-align:center}
+#szRng{width:100%;padding:0;border:0;background:none;height:34px;accent-color:var(--accent)}
+#szNum{width:120px;margin:0 auto;text-align:center;font-weight:700;font-size:20px;padding:6px}
+.szn{display:flex;align-items:center;justify-content:center;gap:16px}.szn span{min-width:110px;text-align:center;color:var(--muted)}
+.szb{display:flex;gap:8px}.szb .btn{flex:1}
+html.sz main{padding-bottom:360px}
 </style>
 </head>
 <body>
@@ -318,8 +360,11 @@ html.dg,html.dg body{overscroll-behavior:none}
   <div class="row"><button class="btn" id="anCancel">Cancelar</button><button class="btn pri" id="anOk">Añadir</button></div></div></div>
 <div class="sheet" id="smSheet"><div class="panel"><h2>RESUMEN DE CONCIERTO</h2><pre id="smPre" style="margin:0;max-height:34vh;overflow:auto;white-space:pre-wrap;font:14px/1.4 system-ui;color:var(--muted)"></pre>
   <div style="display:grid;gap:8px"><button class="btn pri" id="smCopy">Copiar al portapapeles</button><button class="btn" id="smPdf">Descargar PDF</button><button class="btn" id="smSh">Compartir PDF</button><button class="btn" id="smTx">Descargar texto</button><button class="btn" id="smClose">Cerrar</button></div></div></div>
-<div class="sheet" id="modSheet"><div class="panel"><h2>Modificar EN VIVO</h2><p>Para cambiar el orden, mantén pulsada una canción en la lista y arrástrala. Las ya tocadas están bloqueadas (candado): para moverlas, márcalas antes como «no tocada».</p><div class="plist" id="modList" style="max-height:52vh"></div><button class="btn pri" id="modOk">Listo</button></div></div>
 <div id="dropln"></div>
+<div class="sheet" id="infoSheet"><div class="panel"><h2 id="infoTitle"></h2><div id="infoBody"></div><button class="btn pri" id="infoClose">Cerrar</button></div></div>
+<div class="sheet" id="verSheet"><div class="panel"><h2 id="verTitle"></h2><p>Cambia entre CHICO y CHICA con el interruptor de cada canción.</p><div class="plist" id="verList" style="max-height:52vh"></div><button class="btn pri" id="verOk">Listo</button></div></div>
+<div class="sheet" id="szSheet"><div class="panel"><h2>Tamaños de letras y botones</h2><p>Elige qué quieres cambiar y pulsa MODIFICAR: te llevará a la sección para verlo mientras lo ajustas. Cada sección guarda sus propios tamaños.</p><div id="szCats" style="display:grid;gap:8px"></div><div class="row"><button class="btn" id="szClose">Cerrar</button><button class="btn pri" id="szGo">MODIFICAR</button></div></div></div>
+<div id="szBar"><div id="szT"></div><input type="range" id="szRng" min="4" max="150" step="1"><input type="number" id="szNum" inputmode="decimal" min="4" max="300" aria-label="Tamaño en píxeles"><div class="szn"><button class="btn" id="szL" aria-label="Sección anterior">◀</button><span id="szS"></span><button class="btn" id="szR" aria-label="Sección siguiente">▶</button></div><div class="szb"><button class="btn" id="szCancel">CANCELAR</button><button class="btn pri" id="szOk">ACEPTAR</button></div></div>
 <div class="sbox" id="sbox"><div class="spin"></div><span id="sbt"></span></div>
 <div class="sheet" id="dvSheet"><div class="panel"><h2 id="dvTitle"></h2><p id="dvMsg"></p><input id="dvIn" type="url" placeholder="https://drive.google.com/…" autocomplete="off">
   <button class="btn" id="dvPaste">Pegar</button>
@@ -334,7 +379,7 @@ html.dg,html.dg body{overscroll-behavior:none}
 <input type="file" id="impFile" accept=".json,.txt,application/json,text/plain" hidden>
 <script>
 var KEY="setlist-directo-v2",SK="yf-livelist-saves";
-var S={sc:[],cs:0,tab:0,f:{sin:0,pul:0,notas:0,chica:0,liv:0,tono:[],ritmo:[],ip:[],tags:[]},tmode:"a",open:{tono:0,ritmo:0,ip:0,tag:0},theme:"",fs:{t:1,b:1,n:1,h:1},wake:false,ipx:[]};
+var S={sc:[],cs:0,tab:0,f:{sin:0,pul:0,notas:0,chica:0,liv:0,tono:[],ritmo:[],ip:[],tags:[]},tmode:"a",open:{tono:0,ritmo:0,ip:0,tag:0},theme:"",fs:{t:1,b:1,n:1,h:1},sz:null,wake:false,ipx:[]};
 var Q="",cur=null,tm=0,sel=null,yes=null,rl=[],wl=null,tmp=[],tmp2=[],pcur=null,ipq="",ipaq="",NO={c:0,s:0},GO={m:1,s:1},bt="all",imp=null,ex={p:0,u:0,n:0},nname="",VC={};
 const NT=["C","C#","D","Eb","E","F","F#","G","Ab","A","Bb","B"];
 const RD=["RANCHERA","CORRIDO","BOLERO","HUAPANGO","SON","SON HUASTECO","CANCIÓN","JARABE","POLKA","VALSE","PASODOBLE","BALADA","JOROPO","MARCHA","CHACHACHA"];
@@ -342,7 +387,7 @@ const IPD=["M. VARGAS","M. NUEVO TECALITLAN","JORGE NEGRETE","JAVIER SOLIS","PED
 const SIZES=[.85,1,1.2,1.45],FSN=[["t","Títulos"],["b","Botones"],["n","Observaciones"],["h","Secciones"]];
 const TAGS=["Afinación","Arreglos","Autocontrol","Carisma","Consciencia espacial","Coreografía","Dicción","Entrada","Final","Interpretación","Letra","Manejo de imprevistos","Matices","Postura","Sonido","Tempo","Transición"];
 const CO=new Intl.Collator("es",{sensitivity:"base"});
-const VER="1.1";
+const VER="1.3";
 const sv=d=>'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">'+d+'</svg>';
 const ICO={menu:sv('<path d="M4 6h16M4 12h16M4 18h16"/>'),lock:sv('<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),flag:sv('<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>'),pen:sv('<path d="M4 20l1-4L16 5a2.1 2.1 0 0 1 3 3L8 19l-4 1z"/>'),up:sv('<path d="M6 15l6-6 6 6"/>'),down:sv('<path d="M6 9l6 6 6-6"/>'),top:sv('<path d="M6 4h12M6 14l6-6 6 6M12 8v12"/>'),x:sv('<path d="M6 6l12 12M18 6L6 18"/>'),note:sv('<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>')};
 ICO.drive=sv('<path d="M8.5 3h7L22 14.5l-3.5 6h-13l-3.5-6z"/><path d="M15.5 3L8.7 14.8M8.7 14.8H22"/>');
@@ -365,10 +410,15 @@ function fixSong(s){if(!s.id)s.id=uid();if(!Array.isArray(s.k))s.k=s.k?[s.k]:[];
   else s.alt=s.ver==="a"?{k:[],r:[],ip:[],note:"",p:false,dv:""}:null;
   s.fi=s.fi||{};if(!s.fi.r&&(s.r.length||(s.alt&&s.alt.r.length)))s.fi.r=1;if(!s.fi.ip&&(s.ip.length||(s.alt&&s.alt.ip.length)))s.fi.ip=1;if(!S.f.chica)delete s.pv;s.dv=typeof s.dv==="string"?s.dv:"";if(s.alt&&typeof s.alt.dv!=="string")s.alt.dv="";if(typeof s.pl!=="string")s.pl=""}
 function nr(r){return RD.filter(x=>norm(x)===norm(r))[0]||r}
-function fixSc(c){c.pop=c.pop||[];c.songs=c.songs||[];c.songs.forEach(fixSong);c.pop.forEach(p=>{if(!p.id)p.id=uid();p.done=!!p.done;p.td=Array.isArray(p.td)?p.td:[];p.dv=typeof p.dv==="string"?p.dv:""});
-  c.live=(Array.isArray(c.live)?c.live:[]).filter((i,k,a)=>a.indexOf(i)===k&&(isP(i)?c.pop.some(p=>"p:"+p.id===i):c.songs.some(s=>s.id===i)))}
+function fixSc(c){c.pop=c.pop||[];c.songs=c.songs||[];c.songs.forEach(fixSong);
+  c.pop.forEach(p=>{if(!p.id)p.id=uid();p.done=!!p.done;p.td=Array.isArray(p.td)?p.td:[];p.dv=typeof p.dv==="string"?p.dv:"";p.note=typeof p.note==="string"?p.note:"";p.at=typeof p.at==="number"?p.at:null;p.s=Array.isArray(p.s)?p.s:[]});
+  var live=(Array.isArray(c.live)?c.live:[]).filter((i,k,a)=>a.indexOf(i)===k&&(isP(i)?c.pop.some(p=>"p:"+p.id===i):c.songs.some(s=>s.id===i)));
+  for(var i=live.length-1;i>=0;i--){var x=live[i];if(!isP(x))continue;var p=popOf(x,c.pop);
+    if(typeof p.ln!=="number"){var inl=new Set(live),m=p.s.filter(id=>c.songs.some(s=>s.id===id)&&!inl.has(id));live.splice.apply(live,[i+1,0].concat(m));p.ln=m.length}
+    else{var n=0;while(n<p.ln&&i+1+n<live.length&&!isP(live[i+1+n]))n++;p.ln=n}}
+  c.live=live}
 function bind(){var c=S.sc[S.cs];S.songs=c.songs;S.pop=c.pop}
-function save(){try{var o={};for(var k in S)if(k!=="songs"&&k!=="pop")o[k]=S[k];localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
+function save(){if(SZ&&SZ.demo)return;try{var o={};for(var k in S)if(k!=="songs"&&k!=="pop")o[k]=S[k];localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
 function load(){
   try{var r=localStorage.getItem(KEY);if(r){var o=JSON.parse(r);for(var k in o)S[k]=o[k];
     if(!o.sc&&o.songs)S.sc=[{id:uid(),name:"Escena 1",songs:o.songs,pop:[]}]}}catch(e){}
@@ -376,7 +426,7 @@ function load(){
   if(S.cs>=S.sc.length)S.cs=0;
   ["tono","ritmo","ip","tags"].forEach(k=>{if(!Array.isArray(S.f[k]))S.f[k]=[]});
   if(!S.open)S.open={tono:0,ritmo:0,ip:0,tag:0};if(!Array.isArray(S.ipx))S.ipx=[];
-  S.sc.forEach(fixSc);syncIps();syncRits();bind()}
+  S.sc.forEach(fixSc);syncIps();syncRits();bind();szFix()}
 function byId(id){return S.songs.filter(s=>s.id===id)[0]}
 function syncRits(){var add=x=>{if(x&&!S.rits.some(y=>norm(y)===norm(x)))S.rits.push(x)};if(!Array.isArray(S.rits))S.rits=RD.slice();
   S.sc.forEach(c=>c.songs.forEach(s=>{s.r.forEach(add);if(s.alt&&s.alt.r)s.alt.r.forEach(add)}))}
@@ -404,59 +454,53 @@ function tog(a,v){var i=a.indexOf(v);if(i>-1)a.splice(i,1);else a.push(v);save()
 function chip(l,on,fn,n){var b=el("button","chip"+(on?" on":"")+(n===0&&!on?" dim":""),l+(n!=null?" ("+n+")":""));b.onclick=fn;return b}
 /* filas */
 function row(x){
-  var s=x.s,i=x.i,li=el("li",(s.played?"done ":"")+(s.note?"hasnote ":"")+(sel&&sel[i]?"picked ":""));
-  var top=el("div","top2"),m=el("button","main");m.appendChild(el("span","box"));
-  var w=el("span");w.appendChild(el("div","t",s.t));
-  var sub=[];if(s.played&&s.at)sub.push("tocada "+hora(s.at));if(s.note)sub.push(s.note.replace(/\n/g," · "));
-  if(sub.length)w.appendChild(el("div","sub",sub.join(" – ")));
-  m.appendChild(w);
+  var s=x.s,i=x.i,li=el("li","sg "+(s.played?"done ":"")+(s.note?"hasnote ":"")+(sel&&sel[i]?"picked ":""));
+  var r1=el("div","r1"),m=el("button","main");m.appendChild(el("span","box"));
+  var w=el("span");w.appendChild(el("div","t",s.t));m.appendChild(w);
   lp(m,()=>{if(sel)return;ctxMenu(s.t,[["Editar enlace de Drive",()=>dvSheet(s)],["Eliminar canción",()=>delSongs([s.id])],["Borrar observaciones",()=>ctxMenu("Borrar observaciones",[["De CHICO",()=>askNotes(s,"o")],["De CHICA",()=>askNotes(s,"a")],["De ambos",()=>askNotes(s,"b")]])],["Seleccionar varios",()=>{sel={};sel[i]=1;render()}]])});
-  m.onclick=()=>{
+  m.onclick=e=>{
     if(sel){if(sel[i])delete sel[i];else sel[i]=1;render();return}
-    ask(s.t,s.played?"¿Quieres quitarla de las canciones ya tocadas?":"¿Quieres añadirla a las canciones ya tocadas?","Sí",()=>{setPlayed(s,!s.played);save();render()})};
-  var vb=el("button","vb "+(s.ver==="a"?"va":"vo"));vb.innerHTML='<i class="sw"></i>';vb.setAttribute("aria-label","Mostrar otra información");
-  vb.onclick=()=>{VM[s.id]=!VM[s.id];render()};
-  top.appendChild(m);top.appendChild(vb);li.appendChild(top);
-  var ac=el("div","acts");
-  if(VM[s.id]){
-    var c1=el("button","vs vo"+(s.ver==="o"?" on":""),"CHICO"),c2=el("button","vs va"+(s.ver==="a"?" on":""),"CHICA");
-    c1.onclick=()=>{delete s.pv;swapVer(s,"o");VM[s.id]=false;save();render()};c2.onclick=()=>{delete s.pv;swapVer(s,"a");VM[s.id]=false;save();render()};
-    ac.appendChild(c1);ac.appendChild(c2);
-  }else{
-    var k=el("button",s.k.length?"set":"",tl(s));k.onclick=()=>openTone(i);
-    var r=el("button",s.r.length?"set":"",s.r.length?s.r.join(" + "):"Ritmo");r.onclick=()=>openRhy(i);
-    var n=el("button","nb");n.innerHTML=ICO.pen;n.setAttribute("aria-label","Observaciones");n.onclick=()=>openNote(i);
-    ac.appendChild(k);ac.appendChild(r);ac.appendChild(n);ac.appendChild(dvBtn(s))}
-  var p=el("button","fl"+(s.p?" on":""));p.innerHTML=ICO.flag;p.setAttribute("aria-label","Por pulir");
-  p.onclick=()=>ask(s.t,s.p?"¿Quieres quitar la marca «por pulir» de esta canción?":"¿Quieres marcar esta canción como «por pulir»?","Sí",()=>{s.p=!s.p;save();render()});
-  ac.appendChild(p);li.appendChild(ac);
+    if(inCircle(e,m))askPlayed(s);else openInfo(s)};
+  r1.appendChild(m);r1.appendChild(verBtn(s));li.appendChild(r1);
+  var study=!!S.f.est;
+  if(!study){var r2=el("div","r2"),k=el("button","inf"+(s.k.length?" set":""),tl(s));k.onclick=()=>openTone(i);
+    var r=el("button","inf wide"+(s.r.length?" set":""),s.r.length?s.r.join(" + "):"Ritmo");r.onclick=()=>openRhy(i);
+    r2.appendChild(k);r2.appendChild(r);r2.appendChild(dvBtn(s,"ib lvdv"));li.appendChild(r2)}
+  if(study){var r3=el("div","r3");r3.appendChild(noteBtn(s));r3.appendChild(flagBtn(s));r3.appendChild(el("span","sp"));r3.appendChild(dvBtn(s,"ib lvdv"));li.appendChild(r3)}
   if(S.open.ip){var a2=el("div","acts"),q=el("button",s.ip.length?"set":"",s.ip.length?s.ip.join(", "):"Intérprete");q.onclick=()=>openIp(i);a2.appendChild(q);li.appendChild(a2)}
   return li}
 /* popurrís */
 function pm(s,q){if(!q)return 1;var b=norm([s.t,s.r.join(" "),s.k.map(kn).join(" "),s.ip.join(" "),s.ch?"chicas":"",s.eu?"euskera":""].join(" "));
   return q.split(/\s+/).every(t=>b.includes(t)||(t.length>3&&t.endsWith("s")&&b.includes(t.slice(0,-1))))}
-function popToggle(p,pi){p.done?ask(p.name,"¿Quieres quitarlo de los popurrís hechos? Las canciones tocadas no se desmarcan.","Sí",()=>{p.done=false;p.td=[];save();render()}):ask(p.name,"¿Quieres añadir este popurrí como hecho?","Sí",()=>openDone(pi))}
+function popToggle(p,pi){p.done?ask(p.name,"¿Quieres quitarlo de los popurrís hechos? Las canciones tocadas no se desmarcan.","Sí",()=>{p.done=false;p.td=[];p.at=null;save();render()}):ask(p.name,"¿Quieres añadir este popurrí como hecho?","Sí",()=>openDone(pi))}
 function lvBlocked(msg){ask("No se puede",msg,"Entendido",()=>{})}
 function popSongLine(s){return [s.r.join(" + "),kj(s)].filter(Boolean).join("  |  ")}
+function openVer(p){$("verTitle").textContent="Versión: "+p.name;drawVer(p);show("verSheet")}
+function drawVer(p){var b=$("verList");b.innerHTML="";
+  p.s.forEach(id=>{var s=byId(id);if(!s)return;var w=el("div","rrow"),r=el("div","pick");r.appendChild(el("span","",s.t));
+    w.appendChild(r);w.appendChild(verBtn(s,()=>{render();drawVer(p)}));b.appendChild(w)})}
+$("verOk").onclick=()=>hide("verSheet");
 function renderPop(l){
   var b=el("button","btn pri","+ Crear nuevo popurrí");b.onclick=()=>openPop(null);l.appendChild(b);
   if(!S.pop.length)l.appendChild(emp("Aún no hay popurrís en esta escena."));
   S.pop.forEach((p,pi)=>{
     var key="p:"+p.id,c=el("div","pc"+(p.done?" done":"")),hd=el("div","phd");
-    hd.appendChild(el("div","t",p.name));hd.appendChild(dvBtn(p,"pdv","Enlace de Drive del popurrí: "+p.name));c.appendChild(hd);
-    p.s.forEach((id,j)=>{var s=byId(id);if(s){var d=el("div","pi"),L=el("span","",(j+1)+". "+s.t),tg=popSongLine(s);d.appendChild(L);if(tg)L.appendChild(el("small","","  ·  "+tg));if(p.done&&p.td.includes(id))d.appendChild(el("span","ck","✓"));c.appendChild(d)}});
-    var inLv=lvList().indexOf(key)>-1,r=el("div","row2"),h=el("button","btn"+(p.done?" on":""),p.done?"✓ Hecho":"Popurrí hecho"),lv=el("button","btn"+(inLv?" on":""),inLv?"✓ En vivo":"+ En vivo"),rg=el("button","btn","Reorganizar"),ad=el("button","btn","Añadir canción"),cn=el("button","btn","Cambiar nombre"),x=el("button","btn","Eliminar");
-    h.onclick=()=>popToggle(p,pi);
-    lv.onclick=()=>{if(inLv){if(lvDoneX(key))return lvBlocked("«"+p.name+"» está marcado como hecho en EN VIVO y su posición está bloqueada. Desmárcalo antes de quitarlo.");
-      ask("Quitar de EN VIVO","¿Quieres quitar «"+p.name+"» de la lista de EN VIVO?","Quitar",()=>{var r2=lvBuild(lvList(),new Set([key]),[],0);if(!r2)return lvBlocked("No se puede quitar ahora sin cambiar el número de canciones ya tocadas.");setLive(r2);save();render()})}
-      else{var r3=lvBuild(lvList(),new Set(),[key],"last");if(r3)setLive(r3);save();render()}};
-    rg.onclick=()=>openRep(pi);ad.onclick=()=>openPop(pi);
-    cn.onclick=()=>openRen(p.name,n=>{p.name=n;save();render()});
+    var inp=el("input","pname");inp.value=p.name;inp.setAttribute("aria-label","Nombre del popurrí");
+    inp.onfocus=()=>inp.select();inp.onchange=()=>{var v=inp.value.trim();if(!v){inp.value=p.name;return}p.name=v;save()};
+    hd.appendChild(inp);hd.appendChild(popNoteBtn(p));hd.appendChild(dvBtn(p,"ib lvdv","Enlace de Drive del popurrí: "+p.name));c.appendChild(hd);
+    var inLv=lvList().indexOf(key)>-1,r1=el("div","prow"),r2=el("div","prow"),
+      ad=el("button","btn","Añadir canción"),rg=el("button","btn","Reorganizar"),vr=el("button","btn","Versión"),
+      lv=el("button","btn"+(inLv?" on":""),inLv?"✓ En vivo":"+ En vivo"),h=el("button","btn"+(p.done?" on":""),p.done?"✓ Hecho":"Popurrí hecho"),x=el("button","btn","Eliminar");
+    ad.onclick=()=>openPop(pi);rg.onclick=()=>openRep(pi);vr.onclick=()=>openVer(p);h.onclick=()=>popToggle(p,pi);
+    lv.onclick=()=>{if(inLv){ask("Quitar de EN VIVO","¿Quieres quitar «"+p.name+"» y sus canciones de la lista de EN VIVO?","Quitar",()=>{if(lvRemove(key)){save();render()}else lvBlocked("«"+p.name+"» tiene canciones ya tocadas en EN VIVO y su posición está bloqueada. Desmárcalas antes de quitarlo.")})}
+      else{setLive(lvInsChain(lvList(),[key],"last"));save();render()}};
     x.onclick=()=>ask("Eliminar popurrí","¿Quieres eliminar «"+p.name+"»? Las canciones no se borran.","Eliminar",()=>{
-      var a=lvList();if(a.indexOf(key)>-1){if(lvDoneX(key))return lvBlocked("«"+p.name+"» está marcado como hecho en EN VIVO y su posición está bloqueada. Desmárcalo antes de eliminarlo.");
-        var r2=lvBuild(a,new Set([key]),[],0);if(!r2)return lvBlocked("No se puede eliminar ahora sin cambiar el número de canciones ya tocadas.");setLive(r2)}
+      if(lvList().indexOf(key)>-1&&!lvRemove(key))return lvBlocked("«"+p.name+"» tiene canciones ya tocadas en EN VIVO y su posición está bloqueada. Desmárcalas antes de eliminarlo.");
       S.pop.splice(pi,1);save();render()});
-    [h,lv,rg,ad,cn,x].forEach(e=>r.appendChild(e));c.appendChild(r);l.appendChild(c)})}
+    [ad,rg,vr].forEach(e=>r1.appendChild(e));[lv,h,x].forEach(e=>r2.appendChild(e));
+    p.s.forEach((id,j)=>{var s=byId(id);if(!s)return;var d=el("div","pi"),n1=el("div","pn1",(j+1)+". "+s.t);if(p.done&&p.td.includes(id))n1.appendChild(el("span","ck","✓"));d.appendChild(n1);
+      if(s.k.length)d.appendChild(el("div","pd",kj(s)));if(s.r.length)d.appendChild(el("div","pd",s.r.join(" + ")));c.appendChild(d)});
+    c.appendChild(r1);c.appendChild(r2);l.appendChild(c)})}
 function drawPop(){var q=norm($("popQ").value.trim()),b=$("popList");b.innerHTML="";
   S.songs.slice().sort((a,c)=>CO.compare(a.t,c.t)).forEach(s=>{if(!pm(s,q))return;
     var j=tmp.indexOf(s.id),r=el("button","pick"+(j>-1?" on":"")),w=el("span");w.appendChild(el("div","",s.t));
@@ -468,7 +512,7 @@ function openPop(pi){pcur=pi;var p=pi===null?null:S.pop[pi];tmp=p?p.s.slice():[]
 $("popQ").oninput=drawPop;
 $("popCancel").onclick=()=>hide("popSheet");
 $("popSave").onclick=()=>{var nm=$("popName").value.trim()||"Popurrí "+(S.pop.length+1);
-  if(pcur===null)S.pop.push({id:uid(),name:nm,s:tmp.slice(),done:false,td:[],dv:""});else{S.pop[pcur].name=nm;S.pop[pcur].s=tmp.slice()}
+  if(pcur===null)S.pop.push({id:uid(),name:nm,s:tmp.slice(),done:false,td:[],dv:"",note:"",ln:0});else{S.pop[pcur].name=nm;S.pop[pcur].s=tmp.slice();lvSyncFromPop(S.pop[pcur])}
   save();hide("popSheet")};
 function openRep(pi){pcur=pi;tmp2=[];$("repTitle").textContent="Reorganizar: "+S.pop[pi].name;drawRep();show("repSheet")}
 function drawRep(){var p=S.pop[pcur],b=$("repList");b.innerHTML="";
@@ -476,19 +520,34 @@ function drawRep(){var p=S.pop[pcur],b=$("repList");b.innerHTML="";
     r.appendChild(el("span","",s.t));if(j>-1)r.appendChild(el("i","ord",j+1));
     r.onclick=()=>{if(j>-1)tmp2.splice(j,1);else tmp2.push(id);drawRep()};
     x.setAttribute("aria-label","Quitar del popurrí");
-    x.onclick=()=>ask("Quitar canción","¿Quieres quitar «"+s.t+"» de este popurrí? La canción no se borra.","Quitar",()=>{p.s=p.s.filter(i=>i!==id);p.td=p.td.filter(i=>i!==id);tmp2=tmp2.filter(i=>i!==id);save();drawRep()});
+    x.onclick=()=>ask("Quitar canción","¿Quieres quitar «"+s.t+"» de este popurrí? La canción no se borra.","Quitar",()=>{p.s=p.s.filter(i=>i!==id);p.td=p.td.filter(i=>i!==id);tmp2=tmp2.filter(i=>i!==id);lvSyncFromPop(p);save();drawRep()});
     w.appendChild(r);w.appendChild(x);b.appendChild(w)})}
 $("repReset").onclick=()=>{tmp2=[];drawRep()};
-$("repSave").onclick=()=>{var p=S.pop[pcur];p.s=tmp2.concat(p.s.filter(id=>!tmp2.includes(id)));save();hide("repSheet")};
+$("repSave").onclick=()=>{var p=S.pop[pcur];p.s=tmp2.concat(p.s.filter(id=>!tmp2.includes(id)));lvSyncFromPop(p);save();hide("repSheet")};
 function openDone(pi){pcur=pi;tmp=[];$("doneTitle").textContent=S.pop[pi].name;drawDone();show("doneSheet")}
 function drawDone(){var p=S.pop[pcur],b=$("doneList");b.innerHTML="";
   p.s.forEach(id=>{var s=byId(id);if(!s)return;var on=tmp.includes(id),r=el("button","pick"+(on?" on":""));r.appendChild(el("span","",s.t));if(on)r.appendChild(el("i","ord","✓"));
     r.onclick=()=>{if(on)tmp.splice(tmp.indexOf(id),1);else tmp.push(id);drawDone()};b.appendChild(r)})}
 $("doneAll").onclick=()=>{tmp=S.pop[pcur].s.filter(id=>byId(id));drawDone()};
 $("doneCancel").onclick=()=>hide("doneSheet");
-$("doneSave").onclick=()=>{var p=S.pop[pcur],key="p:"+p.id;tmp.forEach(id=>{var s=byId(id);if(s&&!s.played)setPlayed(s,true)});
-  var a=lvList();if(!p.done&&a.indexOf(key)>-1){var r=lvBuild(a,new Set([key]),[key],"first");if(r)setLive(r)}
-  p.done=true;p.td=tmp.slice();save();hide("doneSheet")};
+$("doneSave").onclick=()=>{var p=S.pop[pcur],key="p:"+p.id,a=lvList(),u=lvUnitOf(a,key),sel2=p.s.filter(id=>tmp.includes(id)&&byId(id));
+  if(u&&!p.done){
+    var rest=u.m.filter(id=>!lvDoneX(id)&&sel2.indexOf(id)<0);
+    if(!uLocked(u)){
+      var drop=new Set(u.ents),ins=[key],owners=[];
+      sel2.forEach(id=>{if(a.indexOf(id)>-1&&u.ents.indexOf(id)<0){if(lvDoneX(id))return;var o=lvOwner(a,id);if(o)owners.push(o);drop.add(id)}ins.push(id)});
+      var oldLn=p.ln,nsel=ins.length-1;rest.forEach(id=>ins.push(id));
+      p.ln=nsel;var r=lvBuild(a,drop,ins,"first");
+      if(r&&lvValid(r)){owners.forEach(o=>{var po=popOf(o);if(po)po.ln=Math.max(0,(po.ln||0)-1)});setLive(r)}else p.ln=oldLn;
+    }else{
+      var r2=lvBuild(a,new Set(rest),[],0);
+      if(r2){p.ln=Math.max(0,(p.ln||0)-rest.length);var u2=lvUnitOf(r2,key),miss=sel2.filter(id=>r2.indexOf(id)<0),at=u2.at+u2.ents.length;r2=r2.slice();
+        if(miss.length){r2.splice.apply(r2,[at,0].concat(miss));p.ln+=miss.length;at+=miss.length}
+        r2.splice.apply(r2,[at,0].concat(rest));setLive(r2)}
+    }
+  }
+  tmp.forEach(id=>{var s2=byId(id);if(s2&&!s2.played){s2.played=true;s2.at=Date.now();s2.pl=s2.ver}});
+  p.done=true;p.td=tmp.slice();p.at=Date.now();save();hide("doneSheet")};
 /* render */
 function menus(){
   ["tono","ritmo","ip"].forEach(k=>{$("m"+k).className="menu"+(S.open[k]?" on":"")});
@@ -514,13 +573,14 @@ function fbtns(){
    ["Observaciones",F.notas,()=>{F.notas=F.notas?0:1}],
    ["Por pulir",F.pul,()=>{F.pul=F.pul?0:1}],
    ["En vivo",F.liv,()=>{F.liv=F.liv?0:1}],
+   ["Estudiar",F.est,()=>{F.est=F.est?0:1}],
    [lab("Ritmo",F.ritmo.length,"ritmo"),F.ritmo.length,()=>{o.ritmo=o.ritmo?0:1}],
    ["Tocadas",F.toc,()=>{F.toc=F.toc?0:1;if(F.toc)F.sin=0}],
    [lab("Tono",F.tono.length,"tono"),F.tono.length,()=>{o.tono=o.tono?0:1}]].forEach(p=>{var b=el("button","btn"+(p[1]?" on":""),p[0]);b.onclick=()=>{p[2]();save();render()};c.appendChild(b)});
-  if(F.sin||F.toc||F.pul||F.liv||F.chica||F.tono.length||F.ritmo.length||ipn){var x=el("button","btn","Limpiar");
+  if(F.sin||F.toc||F.pul||F.liv||F.est||F.chica||F.tono.length||F.ritmo.length||ipn){var x=el("button","btn","Limpiar");
     x.onclick=()=>{clearF();save();render();scrollTo(0,0)};c.appendChild(x)}}
 function render(){
-  var sy=window.scrollY;VC={};LSET=null;var l=$("list");
+  var sy=window.scrollY;VC={};LSET=null;applySz();var l=$("list");
   $("sceneBtn").textContent=S.sc[S.cs].name+" ▾";
   try{var hd=document.getElementsByTagName("header")[0];if(hd)document.documentElement.style.setProperty("--hh",hd.offsetHeight+"px")}catch(e){}
   l.innerHTML="";
@@ -537,7 +597,7 @@ function render(){
       var u=el("ul");p[2].forEach(x=>u.appendChild(row(x)));d.appendChild(u);d.ontoggle=()=>{NO[p[0]]=d.open?1:0};l.appendChild(d)})}
     else{var u2=el("ul");v.forEach(x=>u2.appendChild(row(x)));l.appendChild(u2)}
     fbtns();menus();
-    var act=Q.trim()||ipq.trim()||F.sin||F.toc||F.pul||F.liv||F.chica||F.tono.length||F.ritmo.length||F.ip.length;
+    var act=Q.trim()||ipq.trim()||F.sin||F.toc||F.pul||F.liv||F.est||F.chica||F.tono.length||F.ritmo.length||F.ip.length;
     $("filSum").textContent="Filtros"+(act?" · "+v.length+" de "+S.songs.length:"");
   }else if(S.tab===2)renderLive(l);else renderPop(l);
   var d=S.songs.filter(s=>s.played).length,n=S.songs.length;
@@ -552,7 +612,7 @@ function hide(id){var e=$(id),was=e.classList.contains("on");e.classList.remove(
   if(was){var i=OS.lastIndexOf(id);if(i>-1)OS.splice(i,1);bk++;clearTimeout(bt2);bt2=setTimeout(flush,0)}render()}
 addEventListener("popstate",()=>{if(skip>0){skip--;return}var id=OS.pop();if(!id)return;$(id).classList.remove("on");cur=null;
   if(id==="confSheet"){yes=null;var nf=nocb;nocb=null;if(nf)nf()}if(id==="coinSheet")coinCb=null;if(W&&W.st.length&&W.st[W.st.length-1].id===id)W=null;render()});
-["noteSheet","toneSheet","rhySheet","editSheet","menuSheet","confSheet","popSheet","scSheet","newSheet","catSheet","ipSheet","repSheet","doneSheet","expSheet","impSheet","loadSheet","ctxSheet","renSheet","coinSheet","pkSheet","ipmSheet","mmSheet","lvSheet","lqSheet","anSheet","dvSheet","rtmSheet","smSheet","modSheet"].forEach(id=>{$(id).onclick=function(e){if(e.target===this){if(W&&W.st.length&&W.st[W.st.length-1].id===id)W=null;hide(id)}}});
+["noteSheet","toneSheet","rhySheet","editSheet","menuSheet","confSheet","popSheet","scSheet","newSheet","catSheet","ipSheet","repSheet","doneSheet","expSheet","impSheet","loadSheet","ctxSheet","renSheet","coinSheet","pkSheet","ipmSheet","mmSheet","lvSheet","lqSheet","anSheet","dvSheet","rtmSheet","smSheet","infoSheet","verSheet","szSheet"].forEach(id=>{$(id).onclick=function(e){if(e.target===this){if(W&&W.st.length&&W.st[W.st.length-1].id===id)W=null;hide(id)}}});
 var nocb=null;
 function ask(t,msg,yl,fn,no){$("cTitle").textContent=t;$("cMsg").textContent=msg;$("cYes").textContent=yl;yes=fn;nocb=no||null;show("confSheet")}
 $("cYes").onclick=()=>{var f=yes;yes=null;nocb=null;hide("confSheet");if(f)f()};
@@ -563,11 +623,11 @@ $("selEnd").onclick=()=>{sel=null;render()};
 $("selAll").onclick=()=>{sel={};vis("").forEach(x=>{sel[x.i]=1});render()};
 $("selDel").onclick=()=>{Object.keys(sel).forEach(i=>{var s=S.songs[i];s.note="";if(s.alt)s.alt.note=""});save();sel=null;render()};
 /* notas */
-function openNote(i){cur=i;var s=S.songs[i];$("noteTitle").textContent=s.t;$("note").value=s.note||"";show("noteSheet")}
-$("note").oninput=function(){if(cur!==null){S.songs[cur].note=this.value;save()}};
+function openNote(i){NP=null;cur=i;var s=S.songs[i];$("noteTitle").textContent=s.t;$("note").value=s.note||"";show("noteSheet")}
+$("note").oninput=function(){if(NP){NP.note=this.value;save()}else if(cur!==null){S.songs[cur].note=this.value;save()}};
 $("noteDone").onclick=()=>hide("noteSheet");
-$("noteClear").onclick=()=>{$("note").value="";if(cur!==null){S.songs[cur].note="";save()}};
-TAGS.forEach(g=>{var b=el("button","chip",g);b.onclick=()=>{var t=$("note");t.value=(t.value?t.value+"\n":"")+g+": ";t.focus();if(cur!==null){S.songs[cur].note=t.value;save()}};$("chips").appendChild(b)});
+$("noteClear").onclick=()=>{$("note").value="";if(NP){NP.note="";save()}else if(cur!==null){S.songs[cur].note="";save()}};
+TAGS.forEach(g=>{var b=el("button","chip",g);b.onclick=()=>{var t=$("note");t.value=(t.value?t.value+"\n":"")+g+": ";if(NP){NP.note=t.value;save()}else if(cur!==null){S.songs[cur].note=t.value;save()}};$("chips").appendChild(b)});
 /* tonos en orden */
 function drawTone(){
   var s=S.songs[cur],g=$("toneGrid");g.innerHTML="";
@@ -601,7 +661,7 @@ function addIp(){var v=$("ipInput").value.trim();if(!v)return;var f=allIps().fil
 $("ipAdd").onclick=addIp;$("ipInput").onkeydown=e=>{if(e.key==="Enter")addIp()};
 $("ipDone").onclick=()=>hide("ipSheet");
 /* escenas */
-function clearF(){unChicaAll();var f=S.f;f.toc=0;f.sin=f.pul=f.notas=f.chica=f.liv=0;f.tono=[];f.ritmo=[];f.ip=[];Q="";$("q").value="";ipq="";$("ipq").value=""}
+function clearF(){unChicaAll();var f=S.f;f.toc=0;f.sin=f.pul=f.notas=f.chica=f.liv=f.est=0;f.tono=[];f.ritmo=[];f.ip=[];Q="";$("q").value="";ipq="";$("ipq").value="";S.open={tono:0,ritmo:0,ip:0,tag:0};S.tmode="a";GO={m:1,s:1};NO={c:0,s:0}}
 function openSc(){var l=$("scList");l.innerHTML="";
   S.sc.forEach((c,i)=>{var b=el("button","btn mi"+(i===S.cs?" on":""),c.name+" ("+c.songs.length+")");
     b.onclick=()=>ctxMenu(c.name,[["Abrir escena",()=>{S.cs=i;bind();sel=null;S.tab=0;clearF();save();hide("scSheet");scrollTo(0,0)}],
@@ -641,8 +701,9 @@ $("catOk").onclick=()=>{var f=ccb;if(f)f(Object.assign({},csel))};$("catCancel")
 function pick(d,ct){return d?{k:ct.ton?d.k.map(x=>({n:x.n,m:x.m})):[],r:ct.rit?d.r.slice():[],ip:ct.int?d.ip.slice():[],note:ct.not?d.note:"",p:ct.pul?!!d.p:false,dv:ct.dv?(d.dv||""):""}:null}
 function cut(s,ct,keepId){var o=newSong(s.t),c=pick(vo(s,"o"),ct),a=ct.chi?pick(vo(s,"a"),ct):null,ver=a&&s.ver==="a"?"a":"o";
   Object.assign(o,ver==="a"?a:c);o.alt=ver==="a"?c:a;o.ver=ver;o.ch=s.ch;o.eu=s.eu;if(ct.toc){o.played=s.played;o.at=s.at}if(keepId)o.id=s.id;return o}
-function cutScene(c,ct,keepIds){var map={},pmap={},songs=c.songs.map(s=>{var o=cut(s,ct,keepIds);map[s.id]=o.id;return o});
-  var pop=ct.pop?c.pop.map(p=>{var id=keepIds?p.id:uid();pmap[p.id]=id;return{id:id,name:p.name,dv:ct.dv?(p.dv||""):"",done:ct.toc?p.done:false,td:ct.toc?p.td.map(i=>map[i]).filter(Boolean):[],s:p.s.map(i=>map[i]).filter(Boolean)}}):[];
+function cutScene(c,ct,keepIds){var map={},pmap={},songs=c.songs.map(s=>{var o=cut(s,ct,keepIds);map[s.id]=o.id;return o}),lnm={};
+  lvParse(c.live||[],c.pop).forEach(u=>{if(u.h)lnm[u.h]=u.m.filter(i=>map[i]).length});
+  var pop=ct.pop?c.pop.map(p=>{var id=keepIds?p.id:uid();pmap[p.id]=id;return{id:id,name:p.name,dv:ct.dv?(p.dv||""):"",note:ct.not?(p.note||""):"",ln:ct.liv?(lnm["p:"+p.id]||0):0,done:ct.toc?p.done:false,td:ct.toc?p.td.map(i=>map[i]).filter(Boolean):[],s:p.s.map(i=>map[i]).filter(Boolean)}}):[];
   return{id:keepIds?c.id:uid(),name:c.name,songs:songs,pop:pop,live:ct.liv?(c.live||[]).map(i=>isP(i)?(pmap[i.slice(2)]?"p:"+pmap[i.slice(2)]:null):map[i]).filter(Boolean):[]}}
 /* carpeta de Drive por canción */
 var dvS=null;
@@ -661,7 +722,7 @@ function wEnd(){if(W&&W.st.length)hide(W.st[W.st.length-1].id);W=null}
 function wOver(fn){wEnd();fn()}
 /* escena nueva */
 function newFrom(ids,ct){var nm=nname||"Escena "+(S.sc.length+1),map={},songs=S.songs.filter(s=>ids.includes(s.id)).map(s=>{var o=cut(s,ct,false);map[s.id]=o.id;return o});
-  var pop=ct.pop?S.pop.map(p=>({id:uid(),name:p.name,dv:ct.dv?(p.dv||""):"",done:false,td:[],s:p.s.map(i=>map[i]).filter(Boolean)})).filter(p=>p.s.length||ids.length===S.songs.length):[];
+  var pop=ct.pop?S.pop.map(p=>({id:uid(),name:p.name,dv:ct.dv?(p.dv||""):"",note:ct.not?(p.note||""):"",ln:0,done:false,td:[],s:p.s.map(i=>map[i]).filter(Boolean)})).filter(p=>p.s.length||ids.length===S.songs.length):[];
   S.sc.push({id:uid(),name:nm,songs:songs,pop:pop,live:[]});S.cs=S.sc.length-1;bind();sel=null;S.tab=0;clearF();save();hide("scSheet");scrollTo(0,0)}
 $("scNew").onclick=()=>{$("newName").value="";wStart("newSheet");show("newSheet")};
 $("newNo").onclick=()=>{nname=$("newName").value.trim();wOver(()=>newFrom([],{}))};
@@ -707,7 +768,7 @@ function similar(a,b){var A=toks(a).join(" "),B=toks(b).join(" ");if(!A||!B)retu
 function delSongs(ids){if(!ids.length)return;
   ask("Eliminar canción","Se eliminará"+(ids.length>1?"n "+ids.length+" canciones":" 1 canción")+" con todos sus datos (tonos, ritmos, observaciones…) y también saldrá de los popurrís. Antes se guarda una copia automática.","Eliminar",()=>{
     doSave("Antes de eliminar canciones");S.sc[S.cs].songs=S.songs.filter(s=>!ids.includes(s.id));
-    S.pop.forEach(p=>{p.s=p.s.filter(i=>!ids.includes(i));p.td=p.td.filter(i=>!ids.includes(i))});S.sc[S.cs].live=LV().filter(i=>!ids.includes(i));
+    S.pop.forEach(p=>{p.s=p.s.filter(i=>!ids.includes(i));p.td=p.td.filter(i=>!ids.includes(i))});lvDropSongs(ids);
     bind();sel=null;save();if($("editSheet").classList.contains("on"))drawSongs();render()})}
 $("selDelS").onclick=()=>delSongs(Object.keys(sel).map(i=>S.songs[i].id));
 /* canciones como botones + añadir con detección de coincidencias */
@@ -788,7 +849,8 @@ $("expCancel").onclick=()=>wEnd();
 $("expGo").onclick=()=>{if(bt==="scene"&&exP)wGo("pkSheet",stExPk);else wGo("catSheet",stExCat)};
 function stExPk(){picker("¿Qué canciones quieres exportar?",S.sc[bsc].songs,"Continuar",1,ids=>{exIds=ids;wGo("catSheet",stExCat)},exIds)}
 function stExCat(){catSheet("¿Qué datos quieres exportar?",ALLC,"",null,Object.keys(ec).length?ec:null,[["Descargar archivo",()=>dlFile(bkData(),bkName("json"),"application/json")],["Compartir",()=>shareTxt(bkData(),bkName("txt"),"Creando copia de seguridad…"),1]]);ec=csel}
-function subScene(c,ids){var pop=c.pop.map(p=>({id:p.id,name:p.name,dv:p.dv||"",done:p.done,td:p.td.filter(i=>ids.includes(i)),s:p.s.filter(i=>ids.includes(i))})).filter(p=>p.s.length);
+function subScene(c,ids){var lnm={};lvParse(c.live||[],c.pop).forEach(u=>{if(u.h)lnm[u.h]=u.m.filter(i=>ids.includes(i)).length});
+  var pop=c.pop.map(p=>({id:p.id,name:p.name,dv:p.dv||"",note:p.note||"",ln:lnm["p:"+p.id]||0,done:p.done,td:p.td.filter(i=>ids.includes(i)),s:p.s.filter(i=>ids.includes(i))})).filter(p=>p.s.length);
   return{id:c.id,name:c.name,live:(c.live||[]).filter(i=>isP(i)?pop.some(p=>"p:"+p.id===i):ids.includes(i)),songs:c.songs.filter(x=>ids.includes(x.id)),pop:pop}}
 function bkData(){return noCh(()=>{var scs=bt==="all"?S.sc:[S.sc[bsc]];if(bt==="scene"&&exP&&exIds)scs=[subScene(scs[0],exIds)];
   var d={sc:scs.map(c=>cutScene(c,ec,true)),fs:S.fs};if(ec.int)d.ipx=S.ips;if(ec.rit)d.rits=S.rits;
@@ -860,18 +922,31 @@ function mgApply(d){doSave("Antes de importar");var ALL=allOn(NEWC);
   d.rem.forEach(p=>{mgTake(p.s,p.f,R,"rep");mgTake(p.s,p.f,A,"add")});
   syncIps();syncRits();save();render()}
 /* EN VIVO (canciones y popurrís) */
-var lvTmp=[],lqPos=0,lqS=[[],[],[]],anSel=null,smD=null,smTxt="",LSET=null,DG=null,NOCLICK=0;
+var lvTmp=[],lqPos=0,lqS=[[],[],[]],anSel=null,smD=null,smTxt="",LSET=null,DG=null,NOCLICK=0,LE=0,NP=null;
 function isP(x){return typeof x==="string"&&x.slice(0,2)==="p:"}
-function popOf(x){var id=x.slice(2);return S.pop.filter(p=>p.id===id)[0]}
+function popOf(x,pops){var id=x.slice(2),L=pops||S.pop;return L.filter(p=>p.id===id)[0]}
 function LV(){var c=S.sc[S.cs];return c.live||(c.live=[])}
 function setLive(a){S.sc[S.cs].live=a}
 function lvOk(x){return isP(x)?!!popOf(x):!!byId(x)}
 function lvList(){return LV().filter(lvOk)}
 function lvDoneX(x){if(isP(x)){var p=popOf(x);return!!(p&&p.done)}var s=byId(x);return!!(s&&s.played)}
-function lvSeq(){var o=[];lvList().forEach(x=>{if(isP(x))popOf(x).s.forEach(i=>o.push(i));else o.push(x)});return o}
+function lvSeq(){var o=[];lvList().forEach(x=>{if(!isP(x))o.push(x)});return o}
 function liveSet(){if(!LSET){LSET=new Set();lvSeq().forEach(i=>LSET.add(i))}return LSET}
+/* unidades: canción suelta, o popurrí (cabecera + las canciones que lo siguen) */
+function lvParse(a,pops){var u=[],i=0,j,x,p,n,m;
+  while(i<a.length){x=a[i];
+    if(isP(x)){p=popOf(x,pops);n=p?(p.ln||0):0;m=[];j=i+1;while(j<a.length&&m.length<n&&!isP(a[j])){m.push(a[j]);j++}u.push({h:x,m:m,ents:[x].concat(m),at:i});i=j}
+    else{u.push({h:null,m:[],ents:[x],at:i});i++}}
+  return u}
+function lvUnitOf(a,x){var us=lvParse(a);for(var k=0;k<us.length;k++)if(us[k].ents.indexOf(x)>-1)return us[k];return null}
+function lvOwner(a,x){var us=lvParse(a);for(var k=0;k<us.length;k++)if(us[k].h&&us[k].m.indexOf(x)>-1)return us[k].h;return null}
+function uLocked(u){return u.ents.some(lvDoneX)}
+function lvValid(a){var i,x,p,n,j,k;for(i=0;i<a.length;i++){x=a[i];if(isP(x)){p=popOf(x);n=p?(p.ln||0):0;for(k=1;k<=n;k++){j=i+k;if(j>=a.length||isP(a[j]))return false}}}return true}
+function lvNums(a){var n=0;return a.map(x=>isP(x)?n+1:++n)}
+function popSnap(){return S.pop.map(p=>[p.ln,p.s.slice()])}
+function popRestore(s){S.pop.forEach((p,i)=>{p.ln=s[i][0];p.s=s[i][1]})}
 /* Las ya tocadas (candado) conservan su posición; las demás rellenan los huecos libres en orden.
-   a: lista actual, drop: entradas que salen, ins: entradas que entran, pos: "first" | "last" | n (entre las libres) | {after:entrada} */
+   a: lista, drop: entradas que salen, ins: entradas que entran, pos: "first" | "last" | n (entre las libres) | {after:entrada} */
 function lvBuild(a,drop,ins,pos){
   var L={},fr=[],nl=0;
   a.forEach((e,i)=>{if(drop.has(e))return;if(lvDoneX(e)){L[i]=e;nl++}else fr.push({e:e,i:i})});
@@ -883,61 +958,135 @@ function lvBuild(a,drop,ins,pos){
   for(var key in L)if(+key>=N)return null;
   for(i=0;i<N;i++)out.push(L[i]!==undefined?L[i]:f2[j++]);
   return out}
+function lvInside(rest,j){var us=lvParse(rest);for(var k=0;k<us.length;k++){var u=us[k];if(u.h&&j>=u.at+1&&j<=u.at+u.m.length)return u}return null}
+/* tras mover/insertar la canción x: decide si queda dentro de un popurrí y mantiene su lista de canciones */
+function lvSettle(post,x,oldOwner){
+  var po,j,rest,u,owner=null;
+  if(oldOwner){po=popOf(oldOwner);if(po)po.ln=Math.max(0,(po.ln||0)-1)}
+  j=post.indexOf(x);rest=post.filter(e=>e!==x);u=lvInside(rest,j);
+  if(u){if(uLocked(u)){rest.splice(u.at+u.ents.length,0,x);post=rest}else{owner=u.h;var pw=popOf(owner);pw.ln=(pw.ln||0)+1}}
+  [owner,oldOwner].forEach(k=>{if(!k)return;var p=popOf(k);if(!p)return;var un=lvUnitOf(post,k),m=un?un.m:[];p.s=m.concat(p.s.filter(id=>m.indexOf(id)<0&&id!==x))});
+  return post}
+function lvMoveSong(x,pos){var a=lvList(),own=lvOwner(a,x),r=lvBuild(a,new Set([x]),[x],pos);if(!r)return false;
+  var sn=popSnap();r=lvSettle(r,x,own);if(!lvValid(r)){popRestore(sn);return false}setLive(r);return true}
+function lvMoveBlock(h,pos){var a=lvList(),u=lvUnitOf(a,h);if(!u||uLocked(u))return false;
+  var r=lvBuild(a,new Set(u.ents),u.ents,pos);if(!r||!lvValid(r))return false;setLive(r);return true}
+function lvMoveIn(h,x,pos){var a=lvList(),u=lvUnitOf(a,h);if(!u||u.m.indexOf(x)<0)return false;
+  var r=lvBuild(u.m,new Set([x]),[x],pos);if(!r)return false;
+  setLive(a.slice(0,u.at+1).concat(r).concat(a.slice(u.at+1+u.m.length)));var p=popOf(h);p.s=r.concat(p.s.filter(id=>r.indexOf(id)<0));return true}
+function lvRemove(x){var a=lvList(),u=lvUnitOf(a,x);if(!u)return false;
+  if(isP(x)){if(uLocked(u))return false;var r=lvBuild(a,new Set(u.ents),[],0);if(!r)return false;setLive(r);return true}
+  if(lvDoneX(x))return false;var own=lvOwner(a,x),r2=lvBuild(a,new Set([x]),[],0);if(!r2)return false;
+  if(own){var po=popOf(own);po.ln=Math.max(0,(po.ln||0)-1)}setLive(r2);return true}
+function lvDropSongs(ids){var a=LV().slice();ids.forEach(id=>{var o=lvOwner(a,id);if(o){var p=popOf(o);if(p)p.ln=Math.max(0,(p.ln||0)-1)}});setLive(a.filter(i=>ids.indexOf(i)<0))}
+/* añadir: un popurrí entra con sus canciones, en el orden del popurrí */
+function lvExp(items,a){var seen=new Set(a),out=[],lns={};
+  items.forEach(x=>{if(isP(x)){if(seen.has(x))return;seen.add(x);var p=popOf(x),m=p.s.filter(i=>byId(i)&&!seen.has(i));m.forEach(i=>seen.add(i));out.push(x);m.forEach(i=>out.push(i));lns[x]=m.length}
+    else if(!seen.has(x)){seen.add(x);out.push(x)}});
+  return{out:out,lns:lns}}
+function lvInsSong(a,x,pos){if(a.indexOf(x)>-1)return a;var r=lvBuild(a,new Set(),[x],pos);if(!r)return a;return lvSettle(r,x,null)}
+function lvInsBlock(a,h,pos){var ex=lvExp([h],a);if(!ex.out.length)return a;
+  if(pos&&pos.after!==undefined){var u=lvUnitOf(a,pos.after);if(u)pos={after:u.ents[u.ents.length-1]}}
+  popOf(h).ln=ex.lns[h];var r=lvBuild(a,new Set(),ex.out,pos);if(!r||!lvValid(r))r=lvBuild(a,new Set(),ex.out,"last");return r||a}
+function lvInsChain(a,items,pos){var last=null;
+  items.forEach(x=>{var p2=last===null?pos:{after:last};
+    if(isP(x)){a=lvInsBlock(a,x,p2);var u=lvUnitOf(a,x);last=u?u.ents[u.ents.length-1]:last}else{a=lvInsSong(a,x,p2);last=x}});
+  return a}
+function lvSyncFromPop(p){var key="p:"+p.id,a=lvList(),u=lvUnitOf(a,key);if(!u)return;
+  var gone=u.m.filter(id=>p.s.indexOf(id)<0&&!lvDoneX(id));
+  if(gone.length){var r=lvBuild(a,new Set(gone),[],0);if(r){a=r;p.ln=Math.max(0,(p.ln||0)-gone.length);setLive(a)}}
+  u=lvUnitOf(a,key);
+  if(u.m.length&&!u.m.some(lvDoneX)){var order=p.s.filter(id=>u.m.indexOf(id)>-1);if(order.length===u.m.length){a=a.slice(0,u.at+1).concat(order).concat(a.slice(u.at+1+u.m.length));setLive(a)}}
+  u=lvUnitOf(a,key);var add=p.s.filter(id=>byId(id)&&a.indexOf(id)<0);
+  if(add.length){a=a.slice();a.splice.apply(a,[u.at+u.ents.length,0].concat(add));p.ln=(p.ln||0)+add.length;setLive(a)}}
+function lvRegroup(){var a=lvList().slice();
+  S.pop.forEach(p=>{var key="p:"+p.id,u=lvUnitOf(a,key);if(!u)return;
+    var cand=p.s.filter(id=>a.indexOf(id)>-1&&(u.m.indexOf(id)>-1||!lvOwner(a,id)));
+    u.m.forEach(id=>{if(cand.indexOf(id)<0)cand.push(id)});
+    var b=a.filter(x=>cand.indexOf(x)<0),hi=b.indexOf(key);b.splice.apply(b,[hi+1,0].concat(cand));p.ln=cand.length;a=b});
+  setLive(a)}
 function setPlayed(s,on){
-  if(on){var a=lvList();if(a.indexOf(s.id)>-1){var r=lvBuild(a,new Set([s.id]),[s.id],"first");if(r)setLive(r)}s.played=true;s.at=Date.now();s.pl=s.ver}
+  if(on){var a=lvList();
+    if(a.indexOf(s.id)>-1&&!lvOwner(a,s.id)){var r=lvBuild(a,new Set([s.id]),[s.id],"first");if(r){var sn=popSnap();r=lvSettle(r,s.id,null);if(lvValid(r))setLive(r);else popRestore(sn)}}
+    s.played=true;s.at=Date.now();s.pl=s.ver}
   else{s.played=false;s.at=null;s.pl=""}}
+/* aspecto */
 function livePick(x){var w=el("span");
   if(isP(x)){var p=popOf(x);w.appendChild(el("div","","♫ "+p.name));var sm=p.s.map(i=>byId(i)).filter(Boolean).map(s=>s.t).join(" · ");if(sm)w.appendChild(el("small","",sm))}
   else{var s=byId(x),tg=[s.r.join(" · "),kj(s)].filter(Boolean).join("  |  ");w.appendChild(el("div","",s.t));if(tg)w.appendChild(el("small","",tg))}
   return w}
 function pmE(x,q){if(!q)return 1;if(isP(x)){var p=popOf(x);return norm(p.name).includes(q)||p.s.some(i=>{var s=byId(i);return s&&pm(s,q)})}return pm(byId(x),q)}
 function allEnts(){return S.pop.slice().sort((a,c)=>CO.compare(a.name,c.name)).map(p=>"p:"+p.id).concat(S.songs.slice().sort((a,c)=>CO.compare(a.t,c.t)).map(s=>s.id))}
-function liveSong(id,j){
-  var s=byId(id),done=!!s.played,li=el("li","lv "+(done?"done ":"")+(s.note?"hasnote":"")),top=el("div","top2"),m=el("button","main");
-  m.appendChild(el("span","box"));var w=el("span");w.appendChild(el("div","t",(j+1)+". "+s.t));
-  var dt=popSongLine(s);if(dt)w.appendChild(el("div","lvd",dt));m.appendChild(w);
-  m.onclick=()=>ask(s.t,s.played?"¿Quieres quitarla de las canciones ya tocadas?":"¿Quieres añadirla a las canciones ya tocadas?","Sí",()=>{setPlayed(s,!s.played);save();render()});
-  top.appendChild(m);
-  var pn=el("button","lvb nb");pn.innerHTML=ICO.pen;pn.setAttribute("aria-label","Observaciones");pn.onclick=()=>openNote(S.songs.indexOf(s));top.appendChild(pn);
-  top.appendChild(dvBtn(s,"lvb lvdv"));
-  var vb=el("button","vb "+(s.ver==="a"?"va":"vo"));vb.innerHTML='<i class="sw"></i>';vb.setAttribute("aria-label","Cambiar de versión");
-  vb.onclick=()=>{delete s.pv;swapVer(s,s.ver==="a"?"o":"a");save();render()};top.appendChild(vb);
-  li.appendChild(top);if(!done)dragInit(m,li,id);return li}
-function livePop(x,j){
-  var p=popOf(x),pi=S.pop.indexOf(p),done=!!p.done,li=el("li","lv "+(done?"done":"")),top=el("div","top2"),m=el("button","main");
-  m.appendChild(el("span","box"));var w=el("span");w.appendChild(el("div","t",(j+1)+". "+p.name));
-  p.s.forEach(id=>{var s=byId(id);if(!s)return;var d=el("div","lvd");d.appendChild(el("b","",s.t));var tg=popSongLine(s);if(tg)d.appendChild(document.createTextNode("  ·  "+tg));w.appendChild(d)});
-  m.appendChild(w);m.onclick=()=>popToggle(p,pi);top.appendChild(m);
-  top.appendChild(dvBtn(p,"lvb lvdv","Enlace de Drive del popurrí: "+p.name));
-  li.appendChild(top);if(!done)dragInit(m,li,x);return li}
+function inCircle(e,m){return e.detail>0&&(e.clientX-m.getBoundingClientRect().left)<56}
+function askPlayed(s){ask(s.t,s.played?"¿Quieres quitarla de las canciones ya tocadas?":"¿Quieres añadirla a las canciones ya tocadas?","Sí",()=>{setPlayed(s,!s.played);save();render()})}
+function verBtn(s,after){var vb=el("button","ib vb "+(s.ver==="a"?"va":"vo"));vb.innerHTML='<i class="sw"></i>';vb.setAttribute("aria-label","Cambiar entre CHICO y CHICA");
+  vb.onclick=()=>{delete s.pv;swapVer(s,s.ver==="a"?"o":"a");save();if(after)after();else render()};return vb}
+function noteBtn(s){var n=el("button","ib nb"+(s.note?" on":""));n.innerHTML=ICO.pen;n.setAttribute("aria-label","Observaciones");n.onclick=()=>openNote(S.songs.indexOf(s));return n}
+function flagBtn(s){var p=el("button","ib fl"+(s.p?" on":""));p.innerHTML=ICO.flag;p.setAttribute("aria-label","Por pulir");
+  p.onclick=()=>ask(s.t,s.p?"¿Quieres quitar la marca «por pulir» de esta canción?":"¿Quieres marcar esta canción como «por pulir»?","Sí",()=>{s.p=!s.p;save();render()});return p}
+function popNoteBtn(p){var has=!!p.note||p.s.some(i=>{var s=byId(i);return s&&s.note});var n=el("button","ib nb"+(has?" on":""));n.innerHTML=ICO.pen;n.setAttribute("aria-label","Observaciones del popurrí");n.onclick=()=>popNoteMenu(p);return n}
+function popNoteMenu(p){ctxMenu(p.name+": observaciones",[["En el popurrí",()=>openNoteP(p)]].concat(p.s.map(id=>byId(id)).filter(Boolean).map(s=>[s.t,()=>openNote(S.songs.indexOf(s))])))}
+function openNoteP(p){NP=p;cur=null;$("noteTitle").textContent="Observación del popurrí: "+p.name;$("note").value=p.note||"";show("noteSheet")}
+function openInfo(s){$("infoTitle").textContent=s.t;var b=$("infoBody");b.innerHTML="";
+  [["Tono",s.k.length?kj(s):"—"],["Ritmo",s.r.length?s.r.join(" + "):"—"],["Observaciones",s.note||"—"],["Intérprete",s.ip.length?s.ip.join(", "):"—"],["Hora tocada",s.played&&s.at?hora(s.at):"No tocada aún."]].forEach(p=>{
+    var d=el("div","inf1");d.appendChild(el("b","",p[0]+": "));d.appendChild(document.createTextNode(p[1]));b.appendChild(d)});show("infoSheet")}
+function infoRows(rows){var b=$("infoBody");b.innerHTML="";
+  rows.forEach(p=>{var d=el("div","inf1"),multi=p[1].indexOf("\n")>-1;d.appendChild(el("b","",p[0]+":"+(multi?"\n":" ")));d.appendChild(document.createTextNode(p[1]));b.appendChild(d)});show("infoSheet")}
+function openInfoP(p){$("infoTitle").textContent=p.name;var ss=p.s.map(id=>byId(id)).filter(Boolean),pl=ss.filter(s=>s.played);
+  infoRows([["Canciones del repertorio",ss.length?ss.map(s=>s.t).join("\n"):"—"],["De las cuales tocadas",pl.length?pl.map(s=>s.t).join("\n"):"—"],["Observaciones",p.note||"—"],["Hora tocada",p.done?(p.at?hora(p.at):"—"):"No tocado aún."]])}
+$("infoClose").onclick=()=>hide("infoSheet");
+function lvDo(ok){if(ok){save();render()}}
+function lvBlockedMsg(){lvBlocked("No se puede cambiar ahora sin alterar la posición de canciones ya tocadas (candado). Desmarca primero las tocadas.")}
+function lvEditBtns(x,u,owner){var d=el("div","r2 ed"),locked=isP(x)?uLocked(u):lvDoneX(x);
+  if(locked){var lk=el("span","ib lk0");lk.innerHTML=ICO.lock;lk.setAttribute("aria-label","Bloqueada (tocada)");d.appendChild(lk);return d}
+  function act(ic,lab,fn){var b=el("button","ib"+(ic==="x"?" xq":""));b.innerHTML=ICO[ic];b.setAttribute("aria-label",lab);b.onclick=fn;d.appendChild(b)}
+  var go=(f)=>()=>{if(f())lvDo(1);else lvBlockedMsg()};
+  if(owner){act("top","Subir a la primera del popurrí",go(()=>lvMoveIn(owner,x,"first")));act("bottom","Bajar a la última del popurrí",go(()=>lvMoveIn(owner,x,"last")))}
+  else if(isP(x)){act("top","Subir a la primera posición libre",go(()=>lvMoveBlock(x,"first")));act("bottom","Bajar al final",go(()=>lvMoveBlock(x,"last")))}
+  else{act("top","Subir a la primera posición libre",go(()=>lvMoveSong(x,"first")));act("bottom","Bajar al final",go(()=>lvMoveSong(x,"last")))}
+  act("x","Quitar de EN VIVO",()=>rmLive(x));
+  return d}
+function rmLive(x){var isH=isP(x),t=isH?popOf(x).name:byId(x).t;
+  ask(t,isH?"¿Quieres quitar el popurrí «"+t+"» y sus canciones de EN VIVO? Sigue existiendo en Popurrís.":"¿Quieres quitar «"+t+"» de la lista de EN VIVO? La canción sigue en el Repertorio.","Quitar",()=>{if(lvRemove(x))lvDo(1);else lvBlockedMsg()})}
+function liveSong(id,num,owner){
+  var s=byId(id),done=!!s.played,li=el("li","lv sg "+(owner?"inpop ":"")+(done?"done ":"")+(s.note?"hasnote":""));
+  li.dataset.k=id;li.dataset.u=owner||id;if(!owner)li.dataset.first="1";
+  var r1=el("div","r1"),m=el("button","main");m.appendChild(el("span","box"));
+  var w=el("span");w.appendChild(el("div","t",num+". "+s.t));
+  if(s.k.length)w.appendChild(el("div","lvd",kj(s)));
+  if(s.r.length)w.appendChild(el("div","lvd",s.r.join(" + ")));
+  m.appendChild(w);m.onclick=e=>{if(inCircle(e,m))askPlayed(s);else openInfo(s)};
+  r1.appendChild(m);r1.appendChild(verBtn(s));li.appendChild(r1);
+  if(LE)li.appendChild(lvEditBtns(id,null,owner));
+  else{var r2=el("div","r2");r2.appendChild(noteBtn(s));r2.appendChild(dvBtn(s,"ib lvdv"));r2.appendChild(flagBtn(s));li.appendChild(r2)}
+  if(!done)dragInit(m,li,id,false);
+  return li}
+function livePopH(x,num,u){
+  var p=popOf(x),pi=S.pop.indexOf(p),done=!!p.done,lk=uLocked(u),li=el("li","lv sg ph "+(done?"done":""));
+  li.dataset.k=x;li.dataset.u=x;li.dataset.first="1";
+  var r1=el("div","r1"),m=el("button","main");m.appendChild(el("span","box"));
+  var w=el("span");w.appendChild(el("div","t pt","♫ "+num+". "+p.name));m.appendChild(w);
+  m.onclick=e=>{if(inCircle(e,m))popToggle(p,pi);else openInfoP(p)};r1.appendChild(m);li.appendChild(r1);
+  if(LE)li.appendChild(lvEditBtns(x,u,null));
+  else{var r2=el("div","r2");r2.appendChild(popNoteBtn(p));r2.appendChild(dvBtn(p,"ib lvdv","Enlace de Drive del popurrí: "+p.name));li.appendChild(r2)}
+  if(!lk)dragInit(m,li,x,true);
+  return li}
 function renderLive(l){
-  var L=lvList(),bar=el("div","row2");
-  var bt=L.length?[["+ Añadir",openLq],["Modificar",openMod]]:[["Elegir canciones",openLv]];
+  var L=lvList(),bar=el("div","row2");if(!L.length)LE=0;
+  var bt=L.length?[["+ Añadir",openLq],[LE?"Listo":"Modificar",()=>{LE=LE?0:1;render()}]]:[["Elegir canciones",openLv]];
   if(S.songs.some(s=>s.played))bt.push(["RESUMEN DE CONCIERTO",openSum]);
-  bt.forEach(p=>{var b=el("button","btn",p[0]);b.onclick=p[1];bar.appendChild(b)});
+  bt.forEach(p=>{var b=el("button","btn"+(p[0]==="Listo"?" pri":""),p[0]);b.onclick=p[1];bar.appendChild(b)});
   l.appendChild(bar);
   if(!L.length)l.appendChild(emp("Aún no hay canciones en EN VIVO. Pulsa «Elegir canciones» y tócalas en el orden en que las vais a tocar."));
-  var u=el("ul");u.id="lvul";u.style.marginTop="10px";
-  L.forEach((x,j)=>u.appendChild(isP(x)?livePop(x,j):liveSong(x,j)));
+  var u=el("ul");u.id="lvul";u.style.marginTop="10px";var n=0;
+  lvParse(L).forEach(un=>{
+    if(un.h){u.appendChild(livePopH(un.h,n+1,un));un.m.forEach(id=>{n++;u.appendChild(liveSong(id,n,un.h))})}
+    else{n++;u.appendChild(liveSong(un.ents[0],n,null))}});
   l.appendChild(u)}
-/* modificar: quitar, subir a la primera posición libre, bajar al final */
-function openMod(){drawMod();show("modSheet")}
-function mvLive(x,pos){var r=lvBuild(lvList(),new Set([x]),[x],pos);if(r){setLive(r);save();render();drawMod()}}
-function rmLive(x){var t=isP(x)?popOf(x).name:byId(x).t;
-  ask(t,"¿Quieres quitar «"+t+"» de la lista de EN VIVO? "+(isP(x)?"El popurrí sigue en Popurrís.":"La canción sigue en el Repertorio."),"Quitar",()=>{
-    var r=lvBuild(lvList(),new Set([x]),[],0);if(!r)return lvBlocked("No se puede quitar ahora sin cambiar el número de canciones ya tocadas. Desmarca antes las tocadas posteriores.");
-    setLive(r);save();render();if(!lvList().length)hide("modSheet");else drawMod()})}
-function drawMod(){var b=$("modList");b.innerHTML="";
-  lvList().forEach((x,i)=>{var d=lvDoneX(x),w=el("div","rrow"),r=el("div","pick"+(d?" dis":""));r.appendChild(livePick(x));r.appendChild(el("i","ord",i+1));w.appendChild(r);
-    if(d){var lk=el("span","btn mb lk0");lk.innerHTML=ICO.lock;lk.setAttribute("aria-label","Bloqueada (tocada)");w.appendChild(lk)}
-    else[["top","Subir a la primera posición libre",()=>mvLive(x,"first")],["bottom","Bajar al final",()=>mvLive(x,"last")],["x","Quitar de EN VIVO",()=>rmLive(x)]].forEach(p=>{
-      var bb=el("button","btn mb"+(p[0]==="x"?" xq":""));bb.innerHTML=ICO[p[0]];bb.setAttribute("aria-label",p[1]);bb.onclick=p[2];w.appendChild(bb)});
-    b.appendChild(w)})}
-$("modOk").onclick=()=>hide("modSheet");
 /* arrastrar con pulsación larga */
 document.addEventListener("click",e=>{if(Date.now()<NOCLICK){e.stopPropagation();e.preventDefault()}},true);
-function dragInit(m,li,key){var tid=null,sx=0,sy=0;
-  function arm(x,y){sx=x;sy=y;clearTimeout(tid);tid=setTimeout(()=>{tid=null;dgBegin(li,key,sx,sy)},420)}
+function dragInit(m,li,key,blk){var tid=null,sx=0,sy=0;
+  function arm(x,y){sx=x;sy=y;clearTimeout(tid);tid=setTimeout(()=>{tid=null;dgBegin(li,key,sx,sy,blk)},420)}
   function cancel(){clearTimeout(tid);tid=null}
   m.addEventListener("touchstart",e=>{if(e.touches.length===1)arm(e.touches[0].clientX,e.touches[0].clientY)},{passive:true});
   m.addEventListener("touchmove",e=>{if(DG||!tid)return;var p=e.touches[0];if(Math.abs(p.clientX-sx)>10||Math.abs(p.clientY-sy)>10)cancel()},{passive:true});
@@ -946,15 +1095,20 @@ function dragInit(m,li,key){var tid=null,sx=0,sy=0;
   m.addEventListener("mousemove",e=>{if(tid&&(Math.abs(e.clientX-sx)>10||Math.abs(e.clientY-sy)>10))cancel()});
   m.addEventListener("mouseup",cancel);m.addEventListener("mouseleave",cancel);
   m.addEventListener("contextmenu",e=>e.preventDefault())}
-function dgBegin(li,key,x,y){var ul=$("lvul");if(!ul||!li.isConnected)return;
+function dgBegin(li,key,x,y,blk){var ul=$("lvul");if(!ul||!li.isConnected)return;
   try{navigator.vibrate&&navigator.vibrate(20)}catch(_){}
-  DG={li:li,key:key,sy:y,ss:window.scrollY,y:y,ul:ul,items:[].slice.call(ul.children),pos:0,raf:0};
-  li.classList.add("dragging");document.documentElement.classList.add("dg");dgTick();dgUpd()}
+  var items=[].slice.call(ul.children),grp=blk?items.filter(e=>e.dataset.u===key):[li];
+  DG={li:li,key:key,blk:blk,grp:grp,items:items,sy:y,ss:window.scrollY,y:y,ul:ul,pos:0,raf:0};
+  grp.forEach(e=>e.classList.add("dragging"));document.documentElement.classList.add("dg");dgTick();dgUpd()}
 function dgUpd(){var d=DG;if(!d)return;
-  d.li.style.transform="translateY("+((d.y-d.sy)+(window.scrollY-d.ss))+"px)";
-  var r=d.li.getBoundingClientRect(),cy=r.top+r.height/2,
-    oth=d.items.filter(e=>e!==d.li&&!e.classList.contains("done")),k=0;
-  oth.forEach(e=>{var b=e.getBoundingClientRect();if(b.top+b.height/2<cy)k++});d.pos=k;
+  var tr="translateY("+((d.y-d.sy)+(window.scrollY-d.ss))+"px)";d.grp.forEach(e=>{e.style.transform=tr});
+  var r=d.li.getBoundingClientRect(),cy=r.top+r.height/2,k=0,
+    oth=d.items.filter(e=>d.grp.indexOf(e)<0&&!e.classList.contains("done"));
+  if(d.blk){var dec={};d.items.forEach(e=>{if(d.grp.indexOf(e)>-1)return;var u=e.dataset.u;
+      if(dec[u]===undefined){var f=d.items.filter(z=>z.dataset.u===u&&z.dataset.first)[0]||e,b=f.getBoundingClientRect();dec[u]=(b.top+b.height/2)<cy}
+      if(dec[u]&&!e.classList.contains("done"))k++})}
+  else oth.forEach(e=>{var b=e.getBoundingClientRect();if(b.top+b.height/2<cy)k++});
+  d.pos=k;
   var ur=d.ul.getBoundingClientRect(),yy=r.top;
   if(k<oth.length)yy=oth[k].getBoundingClientRect().top-5;else if(oth.length)yy=oth[oth.length-1].getBoundingClientRect().bottom+5;
   $("dropln").style.cssText="display:block;left:"+ur.left+"px;width:"+ur.width+"px;top:"+yy+"px"}
@@ -964,8 +1118,8 @@ function dgTick(){var d=DG;if(!d)return;
   v=Math.max(-18,Math.min(18,v));if(v){window.scrollBy(0,v);dgUpd()}
   d.raf=requestAnimationFrame(dgTick)}
 function dgEnd(ok){var d=DG;if(!d)return;DG=null;cancelAnimationFrame(d.raf);
-  d.li.classList.remove("dragging");d.li.style.transform="";$("dropln").style.display="none";document.documentElement.classList.remove("dg");NOCLICK=Date.now()+450;
-  if(ok){var r=lvBuild(lvList(),new Set([d.key]),[d.key],d.pos);if(r){setLive(r);save()}}
+  d.grp.forEach(e=>{e.classList.remove("dragging");e.style.transform=""});$("dropln").style.display="none";document.documentElement.classList.remove("dg");NOCLICK=Date.now()+450;
+  if(ok){var good=d.blk?lvMoveBlock(d.key,d.pos):lvMoveSong(d.key,d.pos);if(good)save()}
   render()}
 document.addEventListener("touchmove",e=>{if(!DG)return;e.preventDefault();DG.y=e.touches[0].clientY;dgUpd()},{passive:false});
 document.addEventListener("touchend",()=>{if(DG)dgEnd(true)});
@@ -978,35 +1132,34 @@ function drawLv(){var q=norm($("lvQ").value.trim()),b=$("lvList");b.innerHTML=""
   allEnts().forEach(x=>{if(!pmE(x,q))return;var j=lvTmp.indexOf(x),r=el("button","pick"+(j>-1?" on":""));r.appendChild(livePick(x));if(j>-1)r.appendChild(el("i","ord",j+1));
     r.onclick=()=>{if(j>-1)lvTmp.splice(j,1);else lvTmp.push(x);drawLv()};b.appendChild(r)});
   if(!b.children.length)b.appendChild(el("p","","Sin resultados."))}
-$("lvQ").oninput=drawLv;$("lvCancel").onclick=()=>hide("lvSheet");$("lvSave").onclick=()=>{S.sc[S.cs].live=lvTmp.slice();save();hide("lvSheet")};
+$("lvQ").oninput=drawLv;$("lvCancel").onclick=()=>hide("lvSheet");
+$("lvSave").onclick=()=>{var ex=lvExp(lvTmp,[]);Object.keys(ex.lns).forEach(k=>{popOf(k).ln=ex.lns[k]});S.sc[S.cs].live=ex.out;save();hide("lvSheet")};
 /* añadir a EN VIVO: Arriba / Abajo / Entre canciones */
 const LQN=["Arriba","Abajo","Entre canciones"];
 function openLq(){$("lqQ").value="";lqPos=0;lqS=[[],[],[]];drawLq();show("lqSheet");setTimeout(()=>$("lqQ").focus(),250)}
 function lqTot(){return lqS[0].length+lqS[1].length+lqS[2].length}
 function drawLq(){[].forEach.call($("lqSeg").children,(b,i)=>{b.className=(i===lqPos)?"on":"";b.textContent=LQN[i]+(lqS[i].length?" ("+lqS[i].length+")":"")});
-  var q=norm($("lqQ").value.trim()),b=$("lqList"),L=lvList();b.innerHTML="";
-  var inl=L.map((x,i)=>({x:x,n:i+1})).filter(o=>pmE(o.x,q));
+  var q=norm($("lqQ").value.trim()),b=$("lqList"),L=lvList(),nm=lvNums(L);b.innerHTML="";
+  var inl=L.map((x,i)=>({x:x,n:nm[i]})).filter(o=>pmE(o.x,q));
   if(inl.length){b.appendChild(el("h3","","Ya en la lista ("+inl.length+")"));inl.forEach(o=>{var r=el("div","pick dis");r.appendChild(livePick(o.x));r.appendChild(el("i","ord",o.n));b.appendChild(r)})}
   var oth=[];lqS.forEach((a,i)=>{if(i!==lqPos)a.forEach((x,j)=>{if(lvOk(x)&&pmE(x,q))oth.push({x:x,sec:LQN[i],j:j+1})})});
   if(oth.length){b.appendChild(el("h3","","Elegidas en otras secciones ("+oth.length+")"));oth.forEach(o=>{var r=el("div","pick dis");r.appendChild(livePick(o.x));r.appendChild(el("i","ord",o.sec+" "+o.j));b.appendChild(r)})}
   var taken=new Set(L);lqS.forEach((a,i)=>{if(i!==lqPos)a.forEach(x=>taken.add(x))});
-  var rest=allEnts().filter(x=>!taken.has(x)&&pmE(x,q)),cur=lqS[lqPos];
+  var rest=allEnts().filter(x=>!taken.has(x)&&pmE(x,q)),cur2=lqS[lqPos];
   b.appendChild(el("h3","","Añadir "+LQN[lqPos].toLowerCase()+" ("+rest.length+")"));
-  rest.forEach(x=>{var j=cur.indexOf(x),r=el("button","pick"+(j>-1?" on":""));r.appendChild(livePick(x));if(j>-1)r.appendChild(el("i","ord",j+1));
-    r.onclick=()=>{if(j>-1)cur.splice(j,1);else cur.push(x);drawLq()};b.appendChild(r)});
+  rest.forEach(x=>{var j=cur2.indexOf(x),r=el("button","pick"+(j>-1?" on":""));r.appendChild(livePick(x));if(j>-1)r.appendChild(el("i","ord",j+1));
+    r.onclick=()=>{if(j>-1)cur2.splice(j,1);else cur2.push(x);drawLq()};b.appendChild(r)});
   if(!rest.length&&!inl.length&&!oth.length)b.appendChild(el("p","","Sin resultados."));
   $("lqOk").textContent="Añadir ("+lqTot()+")"}
 [].forEach.call($("lqSeg").children,(b,i)=>{b.onclick=()=>{lqPos=i;drawLq()}});
 $("lqQ").oninput=drawLq;$("lqClose").onclick=()=>hide("lqSheet");
 function lqApply(anchor){var a=lvList();
-  if(lqS[0].length)a=lvBuild(a,new Set(),lqS[0],"first")||a;
-  if(lqS[1].length)a=lvBuild(a,new Set(),lqS[1],"last")||a;
-  if(lqS[2].length)a=lvBuild(a,new Set(),lqS[2],anchor?{after:anchor}:"last")||a;
+  a=lvInsChain(a,lqS[0],"first");a=lvInsChain(a,lqS[1],"last");a=lvInsChain(a,lqS[2],anchor?{after:anchor}:"last");
   setLive(a);save();hide("lqSheet")}
 $("lqOk").onclick=()=>{if(!lqTot())return;if(lqS[2].length)openAn();else lqApply(null)};
 function openAn(){anSel=null;drawAn();show("anSheet")}
-function drawAn(){var b=$("anList");b.innerHTML="";
-  lvList().forEach((x,i)=>{var r=el("button","pick"+(anSel===x?" on":""));r.appendChild(livePick(x));r.appendChild(el("i","ord",i+1));r.onclick=()=>{anSel=x;drawAn()};b.appendChild(r)});
+function drawAn(){var b=$("anList"),L=lvList(),nm=lvNums(L);b.innerHTML="";
+  L.forEach((x,i)=>{var r=el("button","pick"+(anSel===x?" on":""));r.appendChild(livePick(x));r.appendChild(el("i","ord",nm[i]));r.onclick=()=>{anSel=x;drawAn()};b.appendChild(r)});
   $("anOk").disabled=!anSel}
 $("anCancel").onclick=()=>hide("anSheet");
 $("anOk").onclick=()=>{if(!anSel)return;var an=anSel;hide("anSheet");lqApply(an)};
@@ -1077,7 +1230,7 @@ function sbox(auto){var b=$("sbox");$("sbt").textContent=auto?"Guardando copia a
   sbT=setTimeout(()=>{$("sbt").textContent=auto?"Copia automática guardada ✓":"Guardado ✓";b.className="sbox on done";sbT=setTimeout(()=>{b.className="sbox"},1100)},650)}
 /* tema, letra, pantalla */
 function eff(){var a=document.documentElement.getAttribute("data-theme");return a||(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}
-function applyFs(){var r=document.documentElement.style;FSN.forEach(p=>r.setProperty("--f"+p[0],S.fs[p[0]]))}
+function applyFs(){applySz()}
 function wake(on){try{if(on&&navigator.wakeLock){navigator.wakeLock.request("screen").then(x=>{wl=x}).catch(()=>{})}else if(wl){wl.release();wl=null}}catch(e){}}
 document.addEventListener("visibilitychange",()=>{if(S.wake&&document.visibilityState==="visible")wake(true)});
 function copyNotes(b){var tx=S.songs.filter(s=>s.note).map(s=>s.t+"\n"+s.note).join("\n\n")||"Sin observaciones.";
@@ -1094,7 +1247,7 @@ function openMenu(){
   item("Gestionar intérpretes",()=>{hide("menuSheet");$("ipmQ").value="";$("ipmIn").value="";drawIpm();show("ipmSheet")});
   item("Copiar observaciones",function(){copyNotes(this)});
   item("Borrar todas las observaciones",()=>{hide("menuSheet");ask("Borrar todas las observaciones","Se eliminarán las observaciones de todas las canciones de esta escena, también las de la versión CHICA. ¿Quieres continuar?","Borrar",()=>{doSave("Antes de borrar observaciones");S.songs.forEach(s=>{s.note="";if(s.alt)s.alt.note=""});save();render()})});
-  item("Reiniciar directo",()=>{hide("menuSheet");ask("Reiniciar directo","Todas las canciones y popurrís de esta escena volverán a «sin tocar». Las observaciones se conservan.","Reiniciar",()=>{doSave("Antes de reiniciar");S.songs.forEach(s=>{s.played=false;s.at=null;s.pl=""});S.pop.forEach(p=>{p.done=false;p.td=[]});save();render()})});
+  item("Reiniciar directo",()=>{hide("menuSheet");ask("Reiniciar directo","Todas las canciones y popurrís de esta escena volverán a «sin tocar». Las observaciones se conservan.","Reiniciar",()=>{doSave("Antes de reiniciar");S.songs.forEach(s=>{s.played=false;s.at=null;s.pl=""});S.pop.forEach(p=>{p.done=false;p.td=[];p.at=null});lvRegroup();save();render()})});
   var d=el("details");d.appendChild(el("summary","","Datos: guardar y copias de seguridad"));var dg=el("div");dg.style.cssText="display:grid;gap:8px;margin-top:8px";
   item("Guardar ahora",function(){doSave();this.textContent="Guardado ✓"},dg);
   item("Cargar guardado",()=>{hide("menuSheet");openLoad()},dg);
@@ -1104,10 +1257,7 @@ function openMenu(){
   var TH=["light","dark","stage"],TN={light:"claro",dark:"oscuro",stage:"escenario"};
   item("Tema: "+TN[eff()]+" (cambiar)",()=>{var n=TH[(TH.indexOf(eff())+1)%3];document.documentElement.setAttribute("data-theme",n);S.theme=n;save();openMenu()});
   item("Pantalla encendida: "+(S.wake?"sí":"no"),()=>{S.wake=!S.wake;save();wake(S.wake);openMenu()});
-  b.appendChild(el("h3","","Tamaño de letra"));
-  FSN.forEach(p=>{var r=el("div","fsr");r.appendChild(el("span","",p[1]));var sg=el("div","seg");
-    ["P","M","G","XG"].forEach((l,j)=>{var bt2=el("button",S.fs[p[0]]===SIZES[j]?"on":"",l);bt2.onclick=()=>{S.fs[p[0]]=SIZES[j];save();applyFs();openMenu()};sg.appendChild(bt2)});
-    r.appendChild(sg);b.appendChild(r)});
+  item("Tamaños de letras y botones",()=>{hide("menuSheet");openSz()});
   b.appendChild(el("p","","YF LiveList · versión "+VER));
   show("menuSheet")}
 function setLock(on){S.lock=on?1:0;save();$("lock").classList.toggle("on",!!on);document.documentElement.classList.toggle("locked",!!on)}
@@ -1115,6 +1265,36 @@ $("lockBtn").onclick=()=>setLock(1);
 $("unlockBtn").onclick=()=>$("unSheet").classList.add("on");
 $("unNo").onclick=()=>$("unSheet").classList.remove("on");
 $("unYes").onclick=()=>{$("unSheet").classList.remove("on");setLock(0)};
+/* tamaños: cada categoría se guarda por separado en CANCIONES, POPURRÍS y EN VIVO */
+const SZC=[["nm","Nombre de canciones"],["pn","Nombre de popurrís"],["bt","Botones: Drive, Observaciones, Por pulir e interruptor CHICO/CHICA"],["tx","Botones escritos: filtros, Reorganizar, Resumen de concierto, intérpretes y otros con texto"],["inf","Información básica: tono y ritmo (en Popurrís, nombres y datos de las canciones)"]];
+const SZD={nm:20,pn:20,bt:20,tx:15,inf:14},SZT={nm:0,pn:1,bt:0,tx:0,inf:0},SZN=["CANCIONES","POPURRÍS","EN VIVO"];
+var SZ=null,szSel="nm";
+function szFix(){var o=(S.sz&&typeof S.sz==="object")?S.sz:{},fs=S.fs||{},leg={nm:fs.t||1,pn:fs.t||1,bt:1,tx:fs.b||1,inf:fs.n||1};
+  for(var t=0;t<3;t++){if(!o[t]||typeof o[t]!=="object")o[t]={};for(var k in SZD){var v=+o[t][k];o[t][k]=(v>=4&&v<=300)?v:Math.round(SZD[k]*leg[k])}}S.sz=o}
+function applySz(){if(!S.sz)szFix();var r=document.documentElement.style,z=S.sz[S.tab]||SZD;for(var k in SZD)r.setProperty("--"+k,z[k]+"px")}
+function openSz(){var b=$("szCats");b.innerHTML="";
+  SZC.forEach(p=>{var x=el("button","pick"+(szSel===p[0]?" on":""),p[1]);x.onclick=()=>{szSel=p[0];openSzDraw()};b.appendChild(x)});show("szSheet")}
+function openSzDraw(){var b=$("szCats");b.innerHTML="";SZC.forEach(p=>{var x=el("button","pick"+(szSel===p[0]?" on":""),p[1]);x.onclick=()=>{szSel=p[0];openSzDraw()};b.appendChild(x)})}
+$("szClose").onclick=()=>hide("szSheet");
+$("szGo").onclick=()=>{var cat=szSel;SZ={cat:cat,bak:JSON.stringify(S.sz),tab0:S.tab,demo:0};hide("szSheet");
+  if(!S.songs.length&&!S.pop.length)szDemo();
+  S.tab=SZT[cat];sel=null;$("szBar").classList.add("on");document.documentElement.classList.add("sz");render();szShow();scrollTo(0,0)};
+function szDemo(){var c=S.sc[S.cs],mk=(t,k)=>{var s=newSong(t);s.note="ejemplo de observaciones";s.r=["Pop"];s.k=[k];s.demo=1;return s};
+  var a=mk("Canción 1",{n:0,m:1}),b=mk("Canción 2",{n:2,m:1}),d=mk("Canción 3",{n:4,m:0});
+  c.songs.push(a,b,d);var p={id:uid(),name:"popurri de ejemplo",s:[a.id,d.id],done:false,td:[],dv:"",note:"",ln:2,demo:1};
+  c.pop.push(p);c.live=[b.id,"p:"+p.id,a.id,d.id];SZ.demo=1;bind()}
+function szUndemo(){if(!SZ||!SZ.demo)return;var c=S.sc[S.cs];c.songs=c.songs.filter(s=>!s.demo);c.pop=c.pop.filter(p=>!p.demo);c.live=[];bind();SZ.demo=0}
+function szShow(){var z=S.sz[S.tab],v=z[SZ.cat];$("szT").textContent=SZC.filter(p=>p[0]===SZ.cat)[0][1].split(":")[0]+" · "+SZN[S.tab];
+  $("szRng").value=Math.min(150,v);$("szNum").value=v;$("szS").textContent=SZN[S.tab]}
+function szSet(v,fromNum){S.sz[S.tab][SZ.cat]=v;applySz();if(!fromNum)$("szNum").value=v;$("szRng").value=Math.min(150,v)}
+$("szRng").oninput=function(){szSet(+this.value)};
+$("szNum").oninput=function(){var v=parseFloat(this.value);if(v>=4&&v<=300)szSet(v,1)};
+$("szNum").onchange=function(){var v=parseFloat(this.value);if(!(v>=4))v=4;if(v>300)v=300;szSet(v)};
+function szGo(d){if(!SZ)return;S.tab=(S.tab+d+3)%3;render();scrollTo(0,0);szShow()}
+$("szL").onclick=()=>szGo(-1);$("szR").onclick=()=>szGo(1);
+function szEnd(ok){if(!SZ)return;var z=SZ;szUndemo();if(!ok){S.sz=JSON.parse(z.bak);S.tab=z.tab0}SZ=null;
+  $("szBar").classList.remove("on");document.documentElement.classList.remove("sz");applySz();save();render()}
+$("szCancel").onclick=()=>szEnd(0);$("szOk").onclick=()=>szEnd(1);
 load();if(S.theme)document.documentElement.setAttribute("data-theme",S.theme);applyFs();render();if(S.wake)wake(true);if(S.lock)setLock(1);
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target&&e.target.tagName==="INPUT")e.target.blur()},true);
 document.querySelectorAll("input").forEach(i=>i.setAttribute("enterkeyhint",i.type==="search"?"search":"done"));
@@ -1123,7 +1303,6 @@ if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(
 /* pantalla de inicio */
 (function(){var sp=$("splash"),bar=$("spbar");window.__ready=1;
   bar.style.width="30%";setTimeout(()=>{bar.style.width="85%"},150);
-
   setTimeout(()=>{bar.style.width="100%";setTimeout(()=>{sp.classList.add("out");setTimeout(()=>{sp.style.display="none"},450)},250)},900)})();
 </script>
 </body>
