@@ -226,7 +226,11 @@ li.ph .t{font-weight:800}
 .inf1{padding:6px 0;border-bottom:1px solid var(--line);white-space:pre-wrap;overflow-wrap:anywhere}
 #szBar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;gap:10px;background:var(--surface);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 24px rgba(0,0,0,.3);max-width:640px;margin:0 auto}
 #szBar.on{display:grid}
-#szT{font-weight:700;text-align:center}
+#szT{display:block;font-weight:700;text-align:center}
+#szG{text-align:center;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;padding-top:2px}
+#szG i{display:block;width:44px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 8px}
+#szBody{display:grid;gap:10px;overflow:hidden;transition:max-height .2s ease}
+#szBar.drag #szBody{transition:none}
 #szRng{width:100%;padding:0;border:0;background:none;height:34px;accent-color:var(--accent)}
 #szNum{width:120px;margin:0 auto;text-align:center;font-weight:700;font-size:20px;padding:6px}
 .szn{display:flex;align-items:center;justify-content:center;gap:16px}.szn span{min-width:110px;text-align:center;color:var(--muted)}
@@ -267,13 +271,14 @@ input,textarea{color:var(--c-int,var(--ink))}
 .chip.on{background:var(--c-pri,var(--accent))}
 /* editar tema: panel de media pantalla que se puede minimizar */
 .csw{flex:none;width:44px;height:28px;border-radius:8px;overflow:hidden;border:1px solid var(--line);display:block}.csw i{display:block;width:100%;height:100%}
-#cte{position:fixed;left:0;right:0;bottom:0;z-index:70;display:none;max-width:640px;margin:0 auto;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-bottom:0;border-radius:18px 18px 0 0;box-shadow:0 -8px 24px rgba(0,0,0,.35);padding-bottom:env(safe-area-inset-bottom,0px)}
+#cte{position:fixed;left:0;right:0;bottom:0;z-index:70;display:none;transition:transform .22s ease;max-width:640px;margin:0 auto;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-bottom:0;border-radius:18px 18px 0 0;box-shadow:0 -8px 24px rgba(0,0,0,.35);padding-bottom:env(safe-area-inset-bottom,0px)}
 #cte.on{display:block}
-.cteh{display:flex;align-items:center;gap:8px;padding:10px 12px}
-.cteg{flex:1;min-width:0;text-align:center;font-weight:700;touch-action:none;padding:2px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cteg i{display:block;width:44px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 6px}
-.cteb{max-height:calc(50vh - 64px);overflow:auto;padding:4px 12px 14px;-webkit-overflow-scrolling:touch}
-#cte.min .cteb{display:none}
+.cteh{display:flex;gap:10px;padding:0 12px 8px}.cteh .btn{flex:1}
+.cteg{text-align:center;font-weight:700;touch-action:none;padding:10px 16px 8px;cursor:grab;user-select:none;-webkit-user-select:none}.cteg span{display:block;overflow-wrap:anywhere;line-height:1.25}
+.cteg i{display:block;width:44px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 8px}
+.cteb{max-height:calc(50vh - 140px);overflow:auto;transition:max-height .2s ease;padding:4px 12px 14px;-webkit-overflow-scrolling:touch}
+#cte.drag .cteb{transition:none}
+#cte.min .cteb{padding:0;overflow:hidden}
 #cte p{margin:0;color:var(--muted);font-size:13px}
 #cteList{display:grid;gap:10px}
 #cteList .pick{width:100%}
@@ -296,6 +301,11 @@ html.cte .selbar,html.cte .fab{display:none}
 :root[data-theme="custom"][data-base="stage"]{--bg:#000;--surface:#0c0c0e;--ink:#f4f4f6;--muted:#8d8d98;--line:#242429;--accent:#d8a24a;--on-accent:#140d00;--done:#101012;--warn:#ff8f66;--ok:#4ade80;--cy:#22d3ee;--mg:#e879f9;--bad:#ff6b6b;color-scheme:dark}
 :root[data-theme="custom"][data-base="light"] li{box-shadow:0 1px 4px rgba(0,0,0,.14);border-color:transparent}
 :root[data-theme="custom"][data-base="dark"] li,:root[data-theme="custom"][data-base="stage"] li{box-shadow:none;border-color:var(--line)}
+li .r2 .sp{flex:1}
+html.sz main>*{pointer-events:none}
+html.sz .selbar,html.sz .fab{display:none}
+.btn.dng{color:var(--bad)}
+html.cte #confSheet,#tnSheet{z-index:80}
 </style>
 </head>
 <body>
@@ -432,8 +442,9 @@ html.cte .selbar,html.cte .fab{display:none}
 <div class="sheet" id="infoSheet"><div class="panel"><h2 id="infoTitle"></h2><div id="infoBody"></div><button class="btn pri" id="infoClose">Cerrar</button></div></div>
 <div class="sheet" id="verSheet"><div class="panel"><h2 id="verTitle"></h2><p>Cambia entre CHICO y CHICA con el interruptor de cada canción.</p><div class="plist" id="verList" style="max-height:52vh"></div><button class="btn pri" id="verOk">Listo</button></div></div>
 <div class="sheet" id="szSheet"><div class="panel"><h2>Tamaños de letras y botones</h2><p>Elige qué quieres cambiar y pulsa MODIFICAR: te llevará a la sección para verlo mientras lo ajustas. Cada sección guarda sus propios tamaños, salvo los botones de ajustes, mini menús y escenas, que son iguales en todas.</p><div id="szCats" style="display:grid;gap:8px"></div><div class="row"><button class="btn" id="szClose">Cerrar</button><button class="btn pri" id="szGo">MODIFICAR</button></div><button class="btn" id="szReset">Restaurar a valores predeterminados</button></div></div>
-<div id="cte"><div class="cteh"><button class="btn" id="cteCancel">Cancelar</button><div class="cteg" id="cteG"><i></i><span id="cteT">Editar tema</span></div><button class="btn pri" id="cteOk">Listo</button></div>
-  <div class="cteb"><div id="cteList"></div>
+<div id="cte"><div class="cteg" id="cteG"><i></i><span id="cteT">Editar tema</span></div>
+  <div class="cteh"><button class="btn" id="cteCancel">Cancelar</button><button class="btn pri" id="cteOk">Listo</button></div>
+  <div class="cteb" id="cteB"><div id="cteList"></div>
     <div id="cpView"><div class="cpmain"><div id="cpSv"><i id="cpSvH"></i></div><div id="cpHue"><i id="cpHueH"></i></div></div>
       <div class="cpcmp"><i id="cpNew"></i><i id="cpOld"></i></div><div class="cpl"><span>Nuevo</span><span>Actual</span></div>
       <div class="cpg">
@@ -442,7 +453,10 @@ html.cte .selbar,html.cte .fab{display:none}
         <label style="grid-column:span 3">Hex<input id="cpX" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
       </div>
       <div class="row"><button class="btn" id="cpDef">Predeterminado</button><button class="btn pri" id="cpBack">Atrás</button></div></div></div></div>
-<div id="szBar"><div id="szT"></div><input type="range" id="szRng" min="4" max="150" step="1"><input type="number" id="szNum" inputmode="decimal" min="4" max="300" aria-label="Tamaño en píxeles"><div class="szn"><button class="btn" id="szL" aria-label="Sección anterior">◀</button><span id="szS"></span><button class="btn" id="szR" aria-label="Sección siguiente">▶</button></div><div class="szb"><button class="btn" id="szCancel">CANCELAR</button><button class="btn pri" id="szOk">ACEPTAR</button></div></div>
+<div class="sheet" id="tnSheet"><div class="panel"><h2 id="tnT">Guardar como tema personalizado</h2><p id="tnP"></p><input id="tnIn" placeholder="Nombre del tema" autocomplete="off" maxlength="40">
+  <button class="btn" id="tnDisc" style="display:none">Descartar cambios</button>
+  <div class="row"><button class="btn" id="tnNo">Cancelar</button><button class="btn pri" id="tnOk">Guardar</button></div></div></div>
+<div id="szBar"><div id="szG"><i></i><span id="szT"></span></div><div id="szBody"><input type="range" id="szRng" min="4" max="150" step="1"><input type="number" id="szNum" inputmode="decimal" min="4" max="300" aria-label="Tamaño en píxeles"><div class="szn"><button class="btn" id="szL" aria-label="Sección anterior">◀</button><span id="szS"></span><button class="btn" id="szR" aria-label="Sección siguiente">▶</button></div></div><div class="szb"><button class="btn" id="szCancel">CANCELAR</button><button class="btn pri" id="szOk">ACEPTAR</button></div></div>
 <div class="sbox" id="sbox"><div class="spin"></div><span id="sbt"></span></div>
 <div class="sheet" id="dvSheet"><div class="panel"><h2 id="dvTitle"></h2><p id="dvMsg"></p><input id="dvIn" type="url" placeholder="https://drive.google.com/…" autocomplete="off">
   <button class="btn" id="dvPaste">Pegar</button>
@@ -455,9 +469,11 @@ html.cte .selbar,html.cte .fab{display:none}
 <div class="lock" id="lock"><button class="btn pri" id="unlockBtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Pantalla bloqueada · desbloquear</button></div>
 <div class="sheet top" id="unSheet"><div class="panel"><h2>Desbloquear pantalla</h2><p>¿Quieres desbloquear la pantalla y volver a poder tocar la app?</p><div class="row"><button class="btn" id="unNo">No</button><button class="btn pri" id="unYes">Sí, desbloquear</button></div></div></div>
 <input type="file" id="impFile" accept=".json,.txt,application/json,text/plain" hidden>
+<input type="file" id="lkFile" accept=".json,.txt,application/json,text/plain" hidden>
+<input type="file" id="szFile" accept=".json,.txt,application/json,text/plain" hidden>
 <script>
 var KEY="setlist-directo-v2",SK="yf-livelist-saves";
-var S={sc:[],cs:0,tab:0,f:{sin:0,pul:0,notas:0,chica:0,liv:0,tono:[],ritmo:[],ip:[],tags:[]},tmode:"a",open:{tono:0,ritmo:0,ip:0,tag:0},theme:"",fs:{t:1,b:1,n:1,h:1},sz:null,ct:{},cbase:"",wake:false,ipx:[]};
+var S={sc:[],cs:0,tab:0,f:{sin:0,pul:0,notas:0,chica:0,liv:0,tono:[],ritmo:[],ip:[],tags:[]},tmode:"a",open:{tono:0,ritmo:0,ip:0,tag:0},theme:"",fs:{t:1,b:1,n:1,h:1},sz:null,ct:{},cbase:"",ctl:[],wake:false,ipx:[]};
 var Q="",cur=null,tm=0,sel=null,yes=null,rl=[],wl=null,tmp=[],tmp2=[],pcur=null,ipq="",ipaq="",NO={c:0,s:0},GO={m:1,s:1},bt="all",imp=null,ex={p:0,u:0,n:0},nname="",VC={};
 const NT=["C","C#","D","Eb","E","F","F#","G","Ab","A","Bb","B"];
 const RD=["RANCHERA","CORRIDO","BOLERO","HUAPANGO","SON","SON HUASTECO","CANCIÓN","JARABE","POLKA","VALSE","PASODOBLE","BALADA","JOROPO","MARCHA","CHACHACHA"];
@@ -465,7 +481,7 @@ const IPD=["M. VARGAS","M. NUEVO TECALITLAN","JORGE NEGRETE","JAVIER SOLIS","PED
 const SIZES=[.85,1,1.2,1.45],FSN=[["t","Títulos"],["b","Botones"],["n","Observaciones"],["h","Secciones"]];
 const TAGS=["Afinación","Arreglos","Autocontrol","Carisma","Consciencia espacial","Coreografía","Dicción","Entrada","Final","Interpretación","Letra","Manejo de imprevistos","Matices","Postura","Sonido","Tempo","Transición"];
 const CO=new Intl.Collator("es",{sensitivity:"base"});
-const VER="1.5";
+const VER="1.7";
 const sv=d=>'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">'+d+'</svg>';
 const ICO={menu:sv('<path d="M4 6h16M4 12h16M4 18h16"/>'),lock:sv('<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),flag:sv('<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>'),pen:sv('<path d="M4 20l1-4L16 5a2.1 2.1 0 0 1 3 3L8 19l-4 1z"/>'),up:sv('<path d="M6 15l6-6 6 6"/>'),down:sv('<path d="M6 9l6 6 6-6"/>'),top:sv('<path d="M6 4h12M6 14l6-6 6 6M12 8v12"/>'),x:sv('<path d="M6 6l12 12M18 6L6 18"/>'),note:sv('<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>')};
 ICO.drive=sv('<path d="M8.5 3h7L22 14.5l-3.5 6h-13l-3.5-6z"/><path d="M15.5 3L8.7 14.8M8.7 14.8H22"/>');
@@ -496,7 +512,7 @@ function fixSc(c){c.pop=c.pop||[];c.songs=c.songs||[];c.songs.forEach(fixSong);
     else{var n=0;while(n<p.ln&&i+1+n<live.length&&!isP(live[i+1+n]))n++;p.ln=n}}
   c.live=live}
 function bind(){var c=S.sc[S.cs];S.songs=c.songs;S.pop=c.pop}
-function save(){if(SZ&&SZ.demo)return;try{var o={};for(var k in S)if(k!=="songs"&&k!=="pop")o[k]=S[k];if(CTE){o.ct=CTE.ct;o.theme=CTE.theme;o.cbase=CTE.cbase}localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
+function save(){if(SZ&&SZ.demo)return;try{var o={};for(var k in S)if(k!=="songs"&&k!=="pop")o[k]=S[k];localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
 function load(){
   try{var r=localStorage.getItem(KEY);if(r){var o=JSON.parse(r);for(var k in o)S[k]=o[k];
     if(!o.sc&&o.songs)S.sc=[{id:uid(),name:"Escena 1",songs:o.songs,pop:[]}]}}catch(e){}
@@ -505,6 +521,8 @@ function load(){
   ["tono","ritmo","ip","tags"].forEach(k=>{if(!Array.isArray(S.f[k]))S.f[k]=[]});
   if(!S.open)S.open={tono:0,ritmo:0,ip:0,tag:0};if(!Array.isArray(S.ipx))S.ipx=[];if(!S.ct||typeof S.ct!=="object"||Array.isArray(S.ct))S.ct={};
   if(S.ct.light||S.ct.dark||S.ct.stage){var ob=S.ct,bs0=["dark","light","stage"].filter(x=>ob[x]&&Object.keys(ob[x]).length)[0];S.cbase=S.cbase||bs0||"dark";S.ct=bs0?ob[bs0]:{}}
+  if(!Array.isArray(S.ctl))S.ctl=[];
+  if(S.theme==="custom"||Object.keys(S.ct).length){var mid="m"+Date.now().toString(36);S.ctl.push({id:mid,name:"Personalizada",base:S.cbase||"dark",ct:S.ct});if(S.theme==="custom")S.theme="c:"+mid;S.ct={}}
   S.sc.forEach(fixSc);syncIps();syncRits();bind();szFix()}
 function byId(id){return S.songs.filter(s=>s.id===id)[0]}
 function syncRits(){var add=x=>{if(x&&!S.rits.some(y=>norm(y)===norm(x)))S.rits.push(x)};if(!Array.isArray(S.rits))S.rits=RD.slice();
@@ -552,7 +570,7 @@ function row(x){
 function pm(s,q){if(!q)return 1;var b=norm([s.t,s.r.join(" "),s.k.map(kn).join(" "),s.ip.join(" "),s.ch?"chicas":"",s.eu?"euskera":""].join(" "));
   return q.split(/\s+/).every(t=>b.includes(t)||(t.length>3&&t.endsWith("s")&&b.includes(t.slice(0,-1))))}
 /* al quitar «popurrí hecho»: sus canciones vuelven a «sin tocar» y las que se habían dejado fuera vuelven a entrar en el popurrí de EN VIVO */
-function popUndo(p){p.s.forEach(id=>{var s=byId(id);if(s){s.played=false;s.at=null;s.pl=""}});p.done=false;p.td=[];p.at=null;lvRegroupP(p)}
+function popUndo(p){p.s.forEach(id=>{var s=byId(id);if(s){s.played=false;s.at=null;s.pl=""}});p.done=false;p.td=[];p.at=null;lvCompact();lvRegroupP(p)}
 function popToggle(p,pi){p.done?ask(p.name,"¿Quieres quitarlo de los popurrís hechos? Sus canciones también pasarán a «sin tocar» y volverán a su sitio dentro del popurrí en EN VIVO.","Sí",()=>{popUndo(p);save();render()}):ask(p.name,"¿Quieres añadir este popurrí como hecho?","Sí",()=>openDone(pi))}
 function lvBlocked(msg){ask("No se puede",msg,"Entendido",()=>{})}
 function popSongLine(s){return [s.r.join(" + "),kj(s)].filter(Boolean).join("  |  ")}
@@ -693,7 +711,7 @@ function hide(id){var e=$(id),was=e.classList.contains("on");e.classList.remove(
   if(was){var i=OS.lastIndexOf(id);if(i>-1)OS.splice(i,1);bk++;clearTimeout(bt2);bt2=setTimeout(flush,0)}render()}
 addEventListener("popstate",()=>{if(skip>0){skip--;return}var id=OS.pop();if(!id)return;if(id==="cte"){OS.push("cte");try{history.pushState({y:1},"")}catch(x){}return}$(id).classList.remove("on");cur=null;
   if(id==="confSheet"){yes=null;var nf=nocb;nocb=null;if(nf)nf()}if(id==="coinSheet")coinCb=null;if(W&&W.st.length&&W.st[W.st.length-1].id===id)W=null;render()});
-["noteSheet","toneSheet","rhySheet","editSheet","menuSheet","confSheet","popSheet","scSheet","newSheet","catSheet","ipSheet","repSheet","doneSheet","expSheet","impSheet","loadSheet","ctxSheet","renSheet","coinSheet","pkSheet","ipmSheet","mmSheet","lvSheet","lqSheet","anSheet","dvSheet","rtmSheet","smSheet","infoSheet","verSheet","szSheet"].forEach(id=>{$(id).onclick=function(e){if(e.target===this){if(W&&W.st.length&&W.st[W.st.length-1].id===id)W=null;hide(id)}}});
+["noteSheet","toneSheet","rhySheet","editSheet","menuSheet","confSheet","popSheet","scSheet","newSheet","catSheet","ipSheet","repSheet","doneSheet","expSheet","impSheet","loadSheet","ctxSheet","renSheet","coinSheet","pkSheet","ipmSheet","mmSheet","lvSheet","lqSheet","anSheet","dvSheet","rtmSheet","smSheet","infoSheet","verSheet","szSheet","tnSheet"].forEach(id=>{$(id).onclick=function(e){if(e.target===this){if(W&&W.st.length&&W.st[W.st.length-1].id===id)W=null;hide(id)}}});
 var nocb=null;
 function ask(t,msg,yl,fn,no){$("cTitle").textContent=t;$("cMsg").textContent=msg;$("cYes").textContent=yl;yes=fn;nocb=no||null;show("confSheet")}
 $("cYes").onclick=()=>{var f=yes;yes=null;nocb=null;hide("confSheet");if(f)f()};
@@ -944,7 +962,7 @@ async function shareTxt(txt,nm,msg,mime){mime=mime||"text/plain";busy(1,msg);var
   busy(0);if(!done)ask("Archivo descargado","El archivo ya está en tu carpeta de Descargas, pero el móvil no abrió el menú de compartir. Puedes enviarlo desde ahí.","Entendido",()=>{})}
 /* importar con asistente */
 $("impFile").onchange=function(){var f=this.files[0];this.value="";if(!f)return;var r=new FileReader();
-  r.onload=()=>{try{var o=JSON.parse(r.result);if(o.app!=="YF LiveList"||!o.data||!Array.isArray(o.data.sc)||!o.data.sc.length)throw 0;
+  r.onload=()=>{try{var o=JSON.parse(r.result);if(bkRoute(o))return;if(o.app!=="YF LiveList"||!o.data||!Array.isArray(o.data.sc)||!o.data.sc.length)throw 0;
     o.data.sc.forEach(fixSc);o.ids=ALLC.filter(k=>!o.cats||o.cats.includes(k));imp=o;
     $("impMsg").textContent="El archivo tiene "+o.data.sc.length+" escena(s). ¿Qué quieres hacer?";$("impOver").style.display=o.type==="all"?"":"none";wStart("impSheet");show("impSheet")}
     catch(e){ask("Archivo no válido","Este archivo no parece una copia de YF LiveList.","Entendido",()=>{})}};r.readAsText(f)};
@@ -1098,11 +1116,16 @@ function lvRegroupP(p){var key="p:"+p.id,a=lvList(),u=lvUnitOf(a,key);if(!u)retu
   for(j=0;j<ks.length&&!r;j++){var t=lvBuild(a,drop,[key].concat(cand),ks[j]);
     if(t&&lvValid(t)){var uu=lvUnitOf(t,key);if(uu&&uu.m.join("|")===cand.join("|"))r=t}}
   if(r)setLive(r);else p.ln=old}
+/* las tocadas ocupan las primeras posiciones en el orden en que se tocaron; al quitar una, las siguientes suben y la quitada pasa a las pendientes */
+function lvCompact(){var a=lvList().slice(),us=lvParse(a),lk=[],fr=[],out=[];
+  us.forEach(u=>(uLocked(u)?lk:fr).push(u));if(!lk.length||!fr.length)return;
+  lk.concat(fr).forEach(u=>u.ents.forEach(e=>out.push(e)));
+  if(out.length===a.length&&out.some((e,i)=>e!==a[i])&&lvValid(out))setLive(out)}
 function setPlayed(s,on){
   if(on){var a=lvList();
     if(a.indexOf(s.id)>-1&&!lvOwner(a,s.id)){var r=lvBuild(a,new Set([s.id]),[s.id],"first");if(r){var sn=popSnap();r=lvSettle(r,s.id,null);if(lvValid(r))setLive(r);else popRestore(sn)}}
     s.played=true;s.at=Date.now();s.pl=s.ver}
-  else{s.played=false;s.at=null;s.pl=""}}
+  else{s.played=false;s.at=null;s.pl="";lvCompact()}}
 /* aspecto */
 function livePick(x){var w=el("span");
   if(isP(x)){var p=popOf(x);w.appendChild(el("div","","♫ "+p.name));var sm=p.s.map(i=>byId(i)).filter(Boolean).map(s=>s.t).join(" · ");if(sm)w.appendChild(el("small","",sm))}
@@ -1151,7 +1174,7 @@ function liveSong(id,num,owner){
   m.appendChild(w);m.onclick=e=>{if(inCircle(e,m))askPlayed(s);else openInfo(s)};
   r1.appendChild(m);r1.appendChild(verBtn(s));li.appendChild(r1);
   if(LE)li.appendChild(lvEditBtns(id,null,owner));
-  else{var r2=el("div","r2");r2.appendChild(noteBtn(s));r2.appendChild(dvBtn(s,"ib lvdv"));r2.appendChild(flagBtn(s));li.appendChild(r2)}
+  else{var r2=el("div","r2");r2.appendChild(noteBtn(s));r2.appendChild(flagBtn(s));r2.appendChild(el("span","sp"));r2.appendChild(dvBtn(s,"ib lvdv"));li.appendChild(r2)}
   if(!done)dragInit(m,li,id,false);
   return li}
 function livePopH(x,num,u){
@@ -1161,7 +1184,7 @@ function livePopH(x,num,u){
   var w=el("span");w.appendChild(el("div","t pt",num+". "+p.name));m.appendChild(w);
   m.onclick=e=>{if(inCircle(e,m))popToggle(p,pi);else openInfoP(p)};r1.appendChild(m);li.appendChild(r1);
   if(LE)li.appendChild(lvEditBtns(x,u,null));
-  else{var r2=el("div","r2");r2.appendChild(popNoteBtn(p));r2.appendChild(dvBtn(p,"ib lvdv","Enlace de Drive del popurrí: "+p.name));li.appendChild(r2)}
+  else{var r2=el("div","r2");r2.appendChild(popNoteBtn(p));r2.appendChild(el("span","sp"));r2.appendChild(dvBtn(p,"ib lvdv","Enlace de Drive del popurrí: "+p.name));li.appendChild(r2)}
   if(!lk)dragInit(m,li,x,true);
   return li}
 function renderLive(l){
@@ -1346,9 +1369,14 @@ function openMenu(){
   item("Cargar guardado",()=>{hide("menuSheet");openLoad()},dg);
   item("Exportar copia de seguridad",()=>{hide("menuSheet");openExp("all")},dg);
   item("Importar copia de seguridad",()=>{hide("menuSheet");$("impFile").click()},dg);
+  item("Exportar copia de temas",()=>{hide("menuSheet");themeExport()},dg);
+  item("Importar copia de temas",()=>{hide("menuSheet");$("lkFile").click()},dg);
+  item("Exportar copia de tamaños",()=>{hide("menuSheet");sizeExport()},dg);
+  item("Importar copia de tamaños",()=>{hide("menuSheet");$("szFile").click()},dg);
   dg.appendChild(el("p","","Último guardado: "+(S.lastSave?new Date(S.lastSave).toLocaleString("es"):"ninguno")));d.appendChild(dg);b.appendChild(d);
-  var TH=["light","dark","stage","custom"],TN={light:"claro",dark:"oscuro",stage:"escenario",custom:"personalizada"};
-  item("Tema: "+TN[eff()]+" (cambiar)",()=>{var c=eff(),n=TH[(TH.indexOf(c)+1)%4];S.theme=n;if(n==="custom"&&(!S.cbase||!Object.keys(S.ct||{}).length))S.cbase=c;applyTheme();save();openMenu()});
+  var TL=["light","dark","stage"].concat(S.ctl.map(t=>"c:"+t.id)),cur=S.theme||eff(),
+    nmT=x=>{if(String(x).indexOf("c:")===0){var t=S.ctl.filter(y=>"c:"+y.id===x)[0];return t?t.name:"personalizada"}return({light:"claro",dark:"oscuro",stage:"escenario"})[x]||x};
+  item("Tema: "+nmT(cur)+" (cambiar)",()=>{S.theme=TL[(TL.indexOf(cur)+1)%TL.length];applyTheme();save();openMenu()});
   item("Editar tema",()=>{hide("menuSheet");openCt()});
   item("Pantalla encendida: "+(S.wake?"sí":"no"),()=>{S.wake=!S.wake;save();wake(S.wake);openMenu()});
   item("Tamaños de letras y botones",()=>{hide("menuSheet");openSz()});
@@ -1359,7 +1387,7 @@ $("lockBtn").onclick=()=>setLock(1);
 $("unlockBtn").onclick=()=>$("unSheet").classList.add("on");
 $("unNo").onclick=()=>$("unSheet").classList.remove("on");
 $("unYes").onclick=()=>{$("unSheet").classList.remove("on");setLock(0)};
-/* editar tema: tema «personalizada»; los cambios solo se guardan al pulsar «Listo» */
+/* temas: claro, oscuro y escenario son fijos; los personalizados tienen nombre. Los cambios solo se guardan con «Listo» */
 const TNB={light:"Claro",dark:"Oscuro",stage:"Escenario"};
 const CTG=[
  ["General",[["bg","Fondo de la aplicación","--bg","var(--bg)"],["ink","Texto principal","--ink","var(--ink)"],["muted","Texto secundario y símbolos","--muted","var(--muted)"],["line","Bordes y líneas","--line","var(--line)"],["accent","Color de acento","--accent","var(--accent)"],["onaccent","Texto sobre el color de acento","--on-accent","var(--on-accent)"]]],
@@ -1370,19 +1398,21 @@ const CTG=[
  ["Ventanas y campos",[["panel","Fondo de ventanas y menús","--c-panel","var(--surface)"],["pt","Títulos de ventanas","--c-pt","var(--ink)"],["pick","Fondo de listas y etiquetas","--c-pick","var(--bg)"],["in","Campos de texto (fondo)","--c-in","var(--surface)"],["int","Campos de texto (letra)","--c-int","var(--ink)"]]],
  ["Estados",[["ok","Verde (✓ y enlace de Drive)","--ok","var(--ok)"],["bad","Rojo (por pulir y avisos)","--bad","var(--bad)"]]]];
 const CTA=[].concat.apply([],CTG.map(g=>g[1]));
-var CTO={},CP=null,CTE=null;
-function ctMap(){if(!S.ct||typeof S.ct!=="object"||Array.isArray(S.ct))S.ct={};return S.ct}
+var CTO={},CP=null,CTW=null;
+function ctCur(){return(S.ctl||[]).filter(t=>"c:"+t.id===S.theme)[0]||null}
+function ctColors(){return CTW?CTW.ct:(ctCur()||{ct:{}}).ct||{}}
 function ctSlot(k){return CTA.filter(x=>x[0]===k)[0]}
-function applyCt(){var r=document.documentElement.style,m=ctMap();CTA.forEach(sl=>r.removeProperty(sl[2]));
-  if(eff()!=="custom")return;
+function applyCt(){var r=document.documentElement.style,m=ctColors();CTA.forEach(sl=>r.removeProperty(sl[2]));
   for(var k in m){var sl=ctSlot(k);if(sl&&/^#[0-9a-f]{6}/i.test(m[k]))r.setProperty(sl[2],m[k].slice(0,7))}}
-function applyTheme(){var h=document.documentElement;if(S.theme)h.setAttribute("data-theme",S.theme);else h.removeAttribute("data-theme");
-  if(S.theme==="custom")h.setAttribute("data-base",S.cbase||"dark");else h.removeAttribute("data-base");applyCt()}
+function applyTheme(){var h=document.documentElement,t=ctCur();if(!t&&String(S.theme).indexOf("c:")===0)S.theme="";
+  if(t){h.setAttribute("data-theme","custom");h.setAttribute("data-base",(CTW&&CTW.id===t.id?CTW.base:t.base)||"dark")}
+  else{if(S.theme)h.setAttribute("data-theme",S.theme);else h.removeAttribute("data-theme");h.removeAttribute("data-base")}
+  applyCt()}
 try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{if(!S.theme)applyCt()})}catch(e){}
 function cssRgba(str){var e=document.createElement("span");e.style.cssText="position:absolute;visibility:hidden;color:"+str;document.body.appendChild(e);
   var c=getComputedStyle(e).color;e.remove();var m=c.match(/[\d.]+/g)||[0,0,0];return[Math.round(+m[0]),Math.round(+m[1]),Math.round(+m[2]),1]}
 function ctDef(sl){var r=document.documentElement.style,old=r.getPropertyValue(sl[2]);r.removeProperty(sl[2]);var c=cssRgba(sl[3]);if(old)r.setProperty(sl[2],old);return c}
-function ctVal(sl){var h=ctMap()[sl[0]],c=h&&parseHex(h);return c||ctDef(sl)}
+function ctVal(sl){var h=ctColors()[sl[0]],c=h&&parseHex(h);return c||ctDef(sl)}
 function h2(n){return("0"+Math.max(0,Math.min(255,Math.round(n))).toString(16)).slice(-2)}
 function toHex(r,g,b){return"#"+h2(r)+h2(g)+h2(b)}
 function parseHex(s){s=String(s).trim().replace(/^#/,"");if(/^[0-9a-f]{3,4}$/i.test(s))s=s.replace(/./g,"$&$&");if(!/^([0-9a-f]{6}|[0-9a-f]{8})$/i.test(s))return null;
@@ -1393,36 +1423,65 @@ function hsv2rgb(h,s,v){var c=v*s,x=c*(1-Math.abs((h/60)%2-1)),m=v-c,r=0,g=0,b=0
 function rgb2hsv(r,g,b){r/=255;g/=255;b/=255;var mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn,h=0;
   if(d){if(mx===r)h=60*(((g-b)/d+6)%6);else if(mx===g)h=60*((b-r)/d+2);else h=60*((r-g)/d+4)}
   return[h,mx?d/mx:0,mx]}
-function drawCt(){var b=$("cteList"),m=ctMap();b.innerHTML="";
-  var h=el("div");h.appendChild(el("p","","Tema base: tus cambios se aplican sobre él."));var bs=el("div","seg");bs.style.marginTop="6px";
-  Object.keys(TNB).forEach(k=>{var x=el("button",(S.cbase||"dark")===k?"on":"",TNB[k]);x.onclick=()=>{S.cbase=k;applyTheme();drawCt()};bs.appendChild(x)});h.appendChild(bs);b.appendChild(h);
+function drawCt(){var b=$("cteList"),m=CTW.ct,cu=CTW.id!==null;b.innerHTML="";
+  var h=el("div");h.style.cssText="display:grid;gap:8px";
+  h.appendChild(el("p","",cu?"Editando el tema personalizado «"+CTW.name+"».":"«"+CTW.name+"» es un tema de la app: no se puede modificar ni borrar. Lo que cambies aquí solo se conserva si lo guardas como tema personalizado."));
+  if(cu){h.appendChild(el("p","","Tema base: tus cambios se aplican sobre él."));var bs=el("div","seg");
+    Object.keys(TNB).forEach(k=>{var x=el("button",CTW.base===k?"on":"",TNB[k]);x.onclick=()=>{CTW.base=k;applyTheme();drawCt()};bs.appendChild(x)});h.appendChild(bs)}
+  var sv=el("button","btn","Guardar como tema personalizado");sv.onclick=()=>ctSaveAs(0);h.appendChild(sv);
+  if(cu){var dl=el("button","btn dng","Borrar tema");dl.onclick=ctDelete;h.appendChild(dl)}
+  b.appendChild(h);
   CTG.forEach((g,gi)=>{var d=el("details","ng"),n=g[1].filter(s=>m[s[0]]).length;d.open=!!CTO[gi];
     d.appendChild(el("summary","",g[0]+(n?" ("+n+" cambiados)":"")));
     var u=el("div");u.style.cssText="display:grid;gap:8px;margin-top:6px";
     g[1].forEach(sl=>{var c=ctVal(sl),r=el("button","pick"),w=el("span");w.appendChild(el("div","",sl[1]));w.appendChild(el("small","",m[sl[0]]?toHex(c[0],c[1],c[2]):"Predeterminado"));r.appendChild(w);
       var sw=el("span","csw"),i=el("i");i.style.background="rgb("+c[0]+","+c[1]+","+c[2]+")";sw.appendChild(i);r.appendChild(sw);r.onclick=()=>openCp(sl[0]);u.appendChild(r)});
     d.appendChild(u);d.ontoggle=()=>{CTO[gi]=d.open?1:0};b.appendChild(d)})}
-function openCt(){if(CTE)return;var c=eff();
-  CTE={ct:JSON.parse(JSON.stringify(ctMap())),theme:S.theme,cbase:S.cbase};
-  if(c!=="custom"){if(!S.cbase||!Object.keys(ctMap()).length)S.cbase=c;S.theme="custom"}
+function openCt(){if(CTW)return;var t=ctCur(),b=TNB[S.theme]?S.theme:(TNB[eff()]?eff():"light");
+  CTW=t?{id:t.id,name:t.name,base:t.base||"dark",ct:JSON.parse(JSON.stringify(t.ct||{}))}:{id:null,name:TNB[b],base:b,ct:{}};
+  CTW.orig=JSON.stringify([CTW.base,CTW.ct]);
   applyTheme();CP=null;$("cpView").style.display="none";$("cteList").style.display="grid";$("cteT").textContent="Editar tema";
-  document.documentElement.classList.add("cte");$("cte").className="on";OS.push("cte");try{history.pushState({y:1},"")}catch(x){}
+  var pn=$("cte");pn.className="on";document.documentElement.classList.add("cte");cteState(1,0);
+  OS.push("cte");try{history.pushState({y:1},"")}catch(x){}
   drawCt();render();scrollTo(0,0)}
-function ctEnd(ok){if(!CTE)return;var z=CTE;CTE=null;if(!ok){S.ct=z.ct;S.theme=z.theme;S.cbase=z.cbase}
-  CP=null;applyTheme();document.documentElement.classList.remove("cte");$("cte").className="";
-  var i=OS.lastIndexOf("cte");if(i>-1)OS.splice(i,1);bk++;clearTimeout(bt2);bt2=setTimeout(flush,0);
-  save();render()}
-$("cteOk").onclick=()=>ctEnd(1);$("cteCancel").onclick=()=>ctEnd(0);
-function cteMin(v){$("cte").classList.toggle("min",!!v)}
-(function(){var g=$("cteG"),y0=null,mv=false;
-  g.addEventListener("pointerdown",e=>{y0=e.clientY;mv=false;try{g.setPointerCapture(e.pointerId)}catch(_){}});
-  g.addEventListener("pointermove",e=>{if(y0===null)return;var d=e.clientY-y0;if(d>30){cteMin(1);y0=e.clientY;mv=true}else if(d<-30){cteMin(0);y0=e.clientY;mv=true}});
-  g.addEventListener("pointerup",()=>{if(y0!==null&&!mv)cteMin(!$("cte").classList.contains("min"));y0=null});
-  g.addEventListener("pointercancel",()=>{y0=null})})();
+function ctFinish(){CTW=null;CP=null;applyTheme();var pn=$("cte");document.documentElement.classList.remove("cte");pn.className="";
+  var i=OS.lastIndexOf("cte");if(i>-1)OS.splice(i,1);bk++;clearTimeout(bt2);bt2=setTimeout(flush,0);save();render()}
+function ctSaveAs(disc){var c=CTW.id!==null;$("tnT").textContent="Guardar como tema personalizado";
+  $("tnP").textContent=disc?"«"+CTW.name+"» no se puede modificar. Guarda tus cambios como un tema nuevo o descártalos.":"Se creará un tema nuevo con estos colores"+(c?"; «"+CTW.name+"» se queda como estaba":"")+". Escribe su nombre.";
+  $("tnIn").value=c?CTW.name+" (copia)":"Mi tema";$("tnDisc").style.display=disc?"":"none";show("tnSheet");setTimeout(()=>{$("tnIn").focus();$("tnIn").select()},80)}
+$("tnOk").onclick=()=>{if(!CTW)return;var nm=$("tnIn").value.trim()||"Mi tema",b=nm,n=2;while(S.ctl.some(x=>x.name===nm))nm=b+" "+n++;
+  var t={id:uid(),name:nm,base:CTW.base,ct:JSON.parse(JSON.stringify(CTW.ct))};S.ctl.push(t);S.theme="c:"+t.id;hide("tnSheet");ctFinish()};
+$("tnNo").onclick=()=>hide("tnSheet");
+$("tnDisc").onclick=()=>{hide("tnSheet");ctFinish()};
+function ctDelete(){ask("Borrar tema","¿Quieres borrar el tema «"+CTW.name+"»? No se puede deshacer.","Borrar",()=>{var i=S.ctl.findIndex(t=>t.id===CTW.id);if(i>-1)S.ctl.splice(i,1);S.theme=TNB[CTW.base]?CTW.base:"dark";ctFinish()})}
+$("cteOk").onclick=()=>{if(!CTW)return;
+  if(CTW.id!==null){var t=S.ctl.filter(x=>x.id===CTW.id)[0];if(t){t.base=CTW.base;t.ct=JSON.parse(JSON.stringify(CTW.ct))}ctFinish();return}
+  if(JSON.stringify([CTW.base,CTW.ct])!==CTW.orig)ctSaveAs(1);else ctFinish()};
+$("cteCancel").onclick=()=>ctFinish();
+/* la línea/título del panel se desliza con el dedo: abajo = minimizar, arriba = abrir del todo; suelta y se ajusta a la posición más cercana (minimizado, media pantalla o completo) */
+var CTS=1;
+function cteHs(){var hdr=$("cteG").offsetHeight+document.querySelector(".cteh").offsetHeight+2;return[0,Math.max(120,Math.round(innerHeight*0.5-hdr)),Math.max(160,innerHeight-hdr-28)]}
+function cteState(n,anim){CTS=n;var pn=$("cte"),H=cteHs();pn.classList.toggle("drag",!anim);$("cteB").style.maxHeight=H[n]+"px";pn.classList.toggle("min",n===0)}
+(function(){var g=$("cteG"),pn=$("cte"),b=$("cteB"),y0=null,h0=0,H=[0,0,0],mv=false,last=0;
+  g.addEventListener("pointerdown",e=>{y0=e.clientY;H=cteHs();h0=H[CTS];last=h0;mv=false;pn.classList.add("drag");try{g.setPointerCapture(e.pointerId)}catch(_){}});
+  g.addEventListener("pointermove",e=>{if(y0===null)return;var d=e.clientY-y0;if(Math.abs(d)>6)mv=true;if(!mv)return;
+    last=Math.max(0,Math.min(H[2],h0-d));b.style.maxHeight=last+"px";pn.classList.toggle("min",last<6)});
+  function fin(){if(y0===null)return;y0=null;
+    if(!mv){cteState(CTS===0?1:0,1);return}
+    var n=0,bd=1e9;H.forEach((v,i)=>{var dd=Math.abs(last-v);if(dd<bd){bd=dd;n=i}});cteState(n,1)}
+  g.addEventListener("pointerup",fin);g.addEventListener("pointercancel",fin)})();
+addEventListener("resize",()=>{if(CTW)cteState(CTS,0)});
+/* barra de tamaños: misma línea deslizante (abajo = minimizar, arriba = volver a abrirla) */
+var SZMIN=0;
+(function(){var g=$("szG"),bar=$("szBar"),b=$("szBody"),y0=null,h0=0,H=0,mv=false,last=0;
+  g.addEventListener("pointerdown",e=>{y0=e.clientY;H=b.scrollHeight;h0=SZMIN?0:H;last=h0;mv=false;bar.classList.add("drag");try{g.setPointerCapture(e.pointerId)}catch(_){}});
+  g.addEventListener("pointermove",e=>{if(y0===null)return;var d=e.clientY-y0;if(Math.abs(d)>6)mv=true;if(!mv)return;last=Math.max(0,Math.min(H,h0-d));b.style.maxHeight=last+"px"});
+  function fin(){if(y0===null)return;y0=null;bar.classList.remove("drag");var min=mv?last<H/2:!SZMIN;SZMIN=min?1:0;b.style.maxHeight=min?"0px":H+"px"}
+  g.addEventListener("pointerup",fin);g.addEventListener("pointercancel",fin)})();
 /* selector de color estilo Photoshop: cuadro de saturación/brillo, barra de matiz y valores numéricos */
 function openCp(k){var sl=ctSlot(k),c=ctVal(sl),hv=rgb2hsv(c[0],c[1],c[2]);
   CP={k:k,sl:sl,h:hv[0],s:hv[1],v:hv[2],oc:c};$("cteT").textContent=sl[1];
-  $("cteList").style.display="none";$("cpView").style.display="grid";cpDraw(true);$("cte").querySelector(".cteb").scrollTop=0}
+  $("cteList").style.display="none";$("cpView").style.display="grid";cpDraw(true);$("cteB").scrollTop=0}
 function cpBack(){CP=null;$("cpView").style.display="none";$("cteList").style.display="grid";$("cteT").textContent="Editar tema";drawCt()}
 function cpDraw(noApply){var c=hsv2rgb(CP.h,CP.s,CP.v),hc=hsv2rgb(CP.h,1,1),o=CP.oc;
   $("cpSv").style.setProperty("--hue","rgb("+hc.join(",")+")");
@@ -1430,7 +1489,7 @@ function cpDraw(noApply){var c=hsv2rgb(CP.h,CP.s,CP.v),hc=hsv2rgb(CP.h,1,1),o=CP
   $("cpNew").style.background="rgb("+c.join(",")+")";$("cpOld").style.background="rgb("+o[0]+","+o[1]+","+o[2]+")";
   var vals={cpH:Math.round(CP.h),cpS:Math.round(CP.s*100),cpV:Math.round(CP.v*100),cpR:c[0],cpG:c[1],cpB:c[2],cpX:toHex(c[0],c[1],c[2])};
   for(var id in vals){var i=$(id);if(document.activeElement!==i)i.value=vals[id]}
-  if(noApply)return;ctMap()[CP.k]=toHex(c[0],c[1],c[2]);applyCt()}
+  if(noApply)return;CTW.ct[CP.k]=toHex(c[0],c[1],c[2]);applyCt()}
 function cpCl(x){return Math.max(0,Math.min(1,x))}
 function cpDrag(e0,fn){e0.addEventListener("pointerdown",e=>{if(!CP)return;e.preventDefault();try{e0.setPointerCapture(e.pointerId)}catch(_){}fn(e);
   var mv=ev=>fn(ev),up=()=>{e0.removeEventListener("pointermove",mv);e0.removeEventListener("pointerup",up);e0.removeEventListener("pointercancel",up)};
@@ -1445,7 +1504,35 @@ cpNum("cpV",v=>{CP.v=Math.max(0,Math.min(100,v))/100});
 [["cpR",0],["cpG",1],["cpB",2]].forEach(p=>cpNum(p[0],v=>{var c=hsv2rgb(CP.h,CP.s,CP.v);c[p[1]]=Math.max(0,Math.min(255,Math.round(v)));cpFromRgb(c)}));
 $("cpX").oninput=function(){if(!CP)return;var c=parseHex(this.value);if(!c)return;cpFromRgb(c);cpDraw()};
 $("cpBack").onclick=cpBack;
-$("cpDef").onclick=()=>{if(CP){delete ctMap()[CP.k];applyCt()}cpBack()};
+$("cpDef").onclick=()=>{if(CP){delete CTW.ct[CP.k];applyCt()}cpBack()};
+/* copias de seguridad aparte: una de temas y otra de tamaños */
+function cleanCt(m){var r={};for(var k in(m||{}))if(ctSlot(k)&&/^#[0-9a-f]{6}/i.test(m[k]))r[k]=String(m[k]).slice(0,7);return r}
+function bkExtra(type,data,label){var nm=bkName("json").replace("YFLiveList - ","YFLiveList "+label+" - "),txt=()=>JSON.stringify({app:"YF LiveList",v:1,type:type,at:Date.now(),data:data()});
+  ctxMenu("Copia de seguridad de "+label,[["Descargar archivo",()=>dlFile(txt(),nm,"application/json")],["Compartir",()=>shareTxt(txt(),nm.replace(/\.json$/,".txt"),"Creando copia de "+label+"…")]])}
+function themeExport(){bkExtra("themes",()=>({ctl:S.ctl,theme:S.theme}),"temas")}
+function sizeExport(){if(!S.sz)szFix();bkExtra("sizes",()=>({sz:S.sz}),"tamaños")}
+function themeImport(o){var d=o.data,L=(d&&Array.isArray(d.ctl)?d.ctl:[]).filter(t=>t&&t.ct&&typeof t.ct==="object");
+  if(!L.length){ask("Archivo sin temas","Este archivo no contiene temas personalizados.","Entendido",()=>{});return}
+  var nz=t=>({id:String(t.id||""),name:String(t.name||"Tema").slice(0,40),base:TNB[t.base]?t.base:"dark",ct:cleanCt(t.ct)});
+  ctxMenu("Importar "+L.length+" tema(s): ¿cómo?",[
+    ["Añadir como temas nuevos",()=>{L.forEach(t=>{var c=nz(t),nm=c.name,n=2;while(S.ctl.some(x=>x.name===nm))nm=c.name+" "+n++;S.ctl.push({id:uid(),name:nm,base:c.base,ct:c.ct})});applyTheme();save();render()}],
+    ["Reemplazar mis temas personalizados",()=>ask("Reemplazar temas","Se borrarán tus "+S.ctl.length+" tema(s) personalizado(s) actuales y se sustituirán por los "+L.length+" del archivo. ¿Quieres continuar?","Reemplazar",()=>{
+      var seen={};S.ctl=L.map(t=>{var c=nz(t);if(!c.id||seen[c.id])c.id=uid();seen[c.id]=1;return c});
+      if(typeof d.theme==="string"&&(TNB[d.theme]||S.ctl.some(t=>"c:"+t.id===d.theme)))S.theme=d.theme;
+      applyTheme();save();render()})]])}
+function sizeImport(o){var d=o.data;if(!d||!d.sz||typeof d.sz!=="object"){ask("Archivo sin tamaños","Este archivo no contiene tamaños de letras y botones.","Entendido",()=>{});return}
+  ask("Importar tamaños","Los tamaños de letras y botones actuales se reemplazarán por los del archivo. Los tamaños no se pueden combinar. ¿Quieres continuar?","Reemplazar",()=>{S.sz=d.sz;szFix();applySz();save();render()})}
+function bkRoute(o){if(!o||o.app!=="YF LiveList")return false;
+  if(o.type==="themes"){themeImport(o);return true}
+  if(o.type==="sizes"){sizeImport(o);return true}
+  if(o.type==="look"){if(o.data&&Array.isArray(o.data.ctl)&&o.data.ctl.length)themeImport(o);else sizeImport(o);return true}
+  return false}
+function bkPick(inp,want){inp.onchange=function(){var f=this.files[0];this.value="";if(!f)return;var r=new FileReader();
+  r.onload=()=>{try{var o=JSON.parse(r.result);if(!o||o.app!=="YF LiveList")throw 0;
+    if(want==="themes"&&o.type==="sizes"){ask("Archivo de tamaños","Este archivo es una copia de tamaños, no de temas. Impórtalo desde «Importar copia de tamaños».","Entendido",()=>{});return}
+    if(want==="sizes"&&o.type==="themes"){ask("Archivo de temas","Este archivo es una copia de temas, no de tamaños. Impórtalo desde «Importar copia de temas».","Entendido",()=>{});return}
+    if(!bkRoute(o))throw 0}catch(e){ask("Archivo no válido","Este archivo no parece una copia de "+(want==="themes"?"temas":"tamaños")+" de YF LiveList.","Entendido",()=>{})}};r.readAsText(f)}}
+bkPick($("lkFile"),"themes");bkPick($("szFile"),"sizes");
 /* tamaños: cada categoría se guarda por separado en CANCIONES, POPURRÍS y EN VIVO */
 const SZC=[["nm","Nombre de canciones"],["pn","Nombre de popurrís"],["bt","Botones: Drive, observaciones, etc."],["tx","Botones escritos: filtros, resumen de concierto, etc."],["sec","Botones de secciones: Canciones, Popurrís y EN VIVO"],["aj","Botones de ajustes: botones del menú de ajustes"],["mm","Botones de mini menús: Cancelar, Listo, etc."],["esc","Botones de escenas: Nueva escena, etc."],["inf","Información básica: tono y ritmo (en Popurrís, nombres y datos de las canciones)"]];
 const SZD={nm:20,pn:20,bt:20,tx:15,inf:14,sec:15,aj:15,mm:15,esc:15},SZT={nm:0,pn:1,bt:0,tx:0,inf:0,sec:0,aj:-1,mm:-1,esc:-1},SZN=["CANCIONES","POPURRÍS","EN VIVO"];
@@ -1464,7 +1551,7 @@ SZG.forEach(k=>$(SZS[k]).addEventListener("click",e=>{if(SZ){e.stopImmediateProp
 $("szReset").onclick=()=>ask("Restaurar a valores predeterminados","Todos los tamaños de letras y botones (de Canciones, Popurrís, EN VIVO y ajustes) volverán a sus valores originales.","Restaurar",()=>{var o={};for(var t=0;t<3;t++){o[t]={};for(var k in SZD)o[t][k]=SZD[k]}S.sz=o;S.fs={t:1,b:1,n:1,h:1};save();applySz();render()});
 $("szGo").onclick=()=>{var cat=szSel;SZ={cat:cat,bak:JSON.stringify(S.sz),tab0:S.tab,demo:0};hide("szSheet");
   if(SZG.indexOf(cat)<0&&!S.songs.length&&!S.pop.length)szDemo();
-  if(SZT[cat]>=0)S.tab=SZT[cat];sel=null;$("szBar").classList.add("on");document.documentElement.classList.add("sz");render();szShow();scrollTo(0,0);
+  if(SZT[cat]>=0)S.tab=SZT[cat];sel=null;$("szBar").classList.add("on");$("szBody").style.maxHeight="";SZMIN=0;document.documentElement.classList.add("sz");render();szShow();scrollTo(0,0);
   szPrev(cat)};
 function szPrev(c){if(c==="aj")openMenu();else if(c==="mm"){$("rtmQ").value="";$("rtmIn").value="";drawRtm();show("rtmSheet")}else if(c==="esc")openSc()}
 function szDemo(){var c=S.sc[S.cs],mk=(t,k)=>{var s=newSong(t);s.note="ejemplo de observaciones";s.r=["Pop"];s.k=[k];s.demo=1;return s};
@@ -1482,7 +1569,7 @@ function szGo(d){if(!SZ||SZG.indexOf(SZ.cat)>-1)return;S.tab=(S.tab+d+3)%3;rende
 $("szL").onclick=()=>szGo(-1);$("szR").onclick=()=>szGo(1);
 function szEnd(ok){if(!SZ)return;var z=SZ;szUndemo();if(!ok){S.sz=JSON.parse(z.bak);S.tab=z.tab0}SZ=null;
   if(SZS[z.cat]&&$(SZS[z.cat]).classList.contains("on"))hide(SZS[z.cat]);
-  $("szBar").classList.remove("on");document.documentElement.classList.remove("sz");applySz();save();render()}
+  $("szBar").classList.remove("on");$("szBody").style.maxHeight="";SZMIN=0;document.documentElement.classList.remove("sz");applySz();save();render()}
 $("szCancel").onclick=()=>szEnd(0);$("szOk").onclick=()=>szEnd(1);
 load();applyTheme();applyFs();render();if(S.wake)wake(true);if(S.lock)setLock(1);
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target&&e.target.tagName==="INPUT")e.target.blur()},true);
